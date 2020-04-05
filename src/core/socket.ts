@@ -4,16 +4,17 @@ import * as io from 'socket.io-client';
 
 export function useSockets() {
   const [socketClient, setSocket] = React.useState<SocketIOClient.Socket>(null);
-  const [messages, setMessages] = React.useState([]);
+  const [message, setMessage] = React.useState();
 
   React.useEffect(() => {
+    console.log('Messages', message);
     if (!socketClient) {
       const socket = io.connect('ws://localhost:3001');
 
       socket.on('connect', () => {});
 
       socket.on('message', (data) => {
-        console.log('Message received', data);
+        setMessage(data);
       });
       setSocket(socket);
     }
@@ -25,21 +26,5 @@ export function useSockets() {
     };
   }, []);
 
-  function sendMessage(data: any, eventType: EventType = 'dice_event') {
-    switch (eventType) {
-      case 'dice_event':
-        return socketClient.send(
-          JSON.stringify({
-            event_type: eventType,
-            creator: ulid(),
-            description: 'Cast dice',
-            rolls: data,
-          })
-        );
-      default:
-        return;
-    }
-  }
-
-  return { messages, sendMessage };
+  return message;
 }

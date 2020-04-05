@@ -109,8 +109,15 @@ const Die = styled.div`
 `;
 
 const EventTray = () => {
-  const { messages } = useSockets();
-  console.log('Messages', messages);
+  const messageStream = useSockets();
+  const [events, setEvents] = React.useState([]);
+
+  React.useEffect(() => {
+    if (messageStream) {
+      setEvents([...events, messageStream]);
+    }
+  }, [messageStream]);
+
   return (
     <EventContainer>
       <Title>Last events:</Title>
@@ -118,7 +125,8 @@ const EventTray = () => {
         {events.map((item) => (
           <Event key={item.event_id}>
             <h3>
-              {item.description} @ {format(item.timestamp, 'HH.mm.ss')}
+              {item.description} @{' '}
+              {format(parseInt(item.timestamp), 'HH.mm.ss')}
             </h3>
             {item.rolls.length > 0 && (
               <EventDice>
@@ -130,7 +138,7 @@ const EventTray = () => {
                 ))}
               </EventDice>
             )}
-            <span>By {item.creator}</span>
+            <span>By {item.creator_id}</span>
           </Event>
         ))}
       </div>

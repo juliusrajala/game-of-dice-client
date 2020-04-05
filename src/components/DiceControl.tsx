@@ -33,7 +33,6 @@ const newDie = (type: DieType): Die => ({
 
 const DiceControl = () => {
   const [diceState, setDiceState] = React.useState(initialDiceState);
-  const { sendMessage } = useSockets();
 
   const addDice = (dieType: DieType) => {
     setDiceState({
@@ -44,7 +43,18 @@ const DiceControl = () => {
   const castDice = () => {
     const newDice = castGroupedDice(diceState.dice);
     setDiceState({ dice: newDice });
-    return sendMessage(newDice);
+    return fetch('http://localhost:3001/api/v1/events/create', {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      method: 'POST',
+      body: JSON.stringify({
+        rolls: newDice,
+        event_type: 'dice_event',
+        creator_id: 'Julius',
+        description: 'Dice cast',
+      }),
+    });
   };
 
   const removeDie = (id: string) => {
