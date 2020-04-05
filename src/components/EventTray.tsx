@@ -5,41 +5,45 @@ import styled from 'styled-components';
 import { format } from 'date-fns';
 import { useSockets } from 'src/core/socket';
 
-const events: Array<DiceEvent> = [
-  {
-    event_id: ulid(),
-    event_type: 'dice',
-    timestamp: Date.now(),
-    description: 'Dice cast',
-    rolls: [
-      {
-        id: ulid(),
-        value: getDieValue(12),
-        type: 'd12',
-      },
-      {
-        id: ulid(),
-        value: getDieValue(6),
-        type: 'd6',
-      },
-    ],
-    creator: 'Julius',
-  },
-  {
-    event_id: ulid(),
-    event_type: 'dice',
-    timestamp: Date.now(),
-    description: 'Dice cast',
-    rolls: [
-      {
-        id: ulid(),
-        value: getDieValue(12),
-        type: 'd12',
-      },
-    ],
-    creator: 'Konsta',
-  },
-];
+const EventTray = () => {
+  const messageStream = useSockets();
+  const [events, setEvents] = React.useState([]);
+
+  React.useEffect(() => {
+    if (messageStream) {
+      setEvents([...events, messageStream]);
+    }
+  }, [messageStream]);
+
+  return (
+    <EventContainer>
+      <Title>Last events:</Title>
+      <div>
+        {events.map((item) => (
+          <Event key={item.event_id}>
+            <h3>
+              {item.description} @{' '}
+              {format(parseInt(item.timestamp), 'HH.mm.ss')}
+            </h3>
+            {item.rolls.length > 0 && (
+              <EventDice>
+                {item.rolls.map((roll) => (
+                  <Die key={roll.id}>
+                    <span>{roll.type}</span>
+                    <span>{roll.value}</span>
+                  </Die>
+                ))}
+              </EventDice>
+            )}
+            <span>By {item.creator_id}</span>
+          </Event>
+        ))}
+      </div>
+    </EventContainer>
+  );
+};
+
+export default EventTray;
 
 const EventContainer = styled.div`
   padding: 1rem;
@@ -107,43 +111,3 @@ const Die = styled.div`
     font-size: 1.5rem;
   }
 `;
-
-const EventTray = () => {
-  const messageStream = useSockets();
-  const [events, setEvents] = React.useState([]);
-
-  React.useEffect(() => {
-    if (messageStream) {
-      setEvents([...events, messageStream]);
-    }
-  }, [messageStream]);
-
-  return (
-    <EventContainer>
-      <Title>Last events:</Title>
-      <div>
-        {events.map((item) => (
-          <Event key={item.event_id}>
-            <h3>
-              {item.description} @{' '}
-              {format(parseInt(item.timestamp), 'HH.mm.ss')}
-            </h3>
-            {item.rolls.length > 0 && (
-              <EventDice>
-                {item.rolls.map((roll) => (
-                  <Die key={roll.id}>
-                    <span>{roll.type}</span>
-                    <span>{roll.value}</span>
-                  </Die>
-                ))}
-              </EventDice>
-            )}
-            <span>By {item.creator_id}</span>
-          </Event>
-        ))}
-      </div>
-    </EventContainer>
-  );
-};
-
-export default EventTray;
