@@ -13,6 +13,7 @@ declare type HttpRequestStatus = '' | 'pending' | 'rejected' | 'fulfilled';
 
 declare type DieType =
   | 'd2'
+  | 'd3'
   | 'd4'
   | 'd6'
   | 'd8'
@@ -21,7 +22,7 @@ declare type DieType =
   | 'd20'
   | 'd100';
 
-declare type EvenType = 'dice_event' | 'hp_event' | '';
+declare type EventType = 'dice_event' | 'hp_event' | '';
 
 declare interface Die {
   id: string;

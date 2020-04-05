@@ -65,7 +65,9 @@ const App: React.SFC<any> = ({ store }: any) => (
         alignItems: 'center',
         justifyContent: 'center',
         display: 'flex',
-        width: '900px',
+        minWidth: '900px',
+        width: '100%',
+        padding: '5rem',
       }}
     >
       <DiceControl />

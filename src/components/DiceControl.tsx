@@ -1,7 +1,21 @@
 import * as React from 'react';
 import { ulid } from 'ulid';
-import { castGroupedDice } from 'src/core/dice';
 import styled from 'styled-components';
+import { FiShuffle, FiXSquare } from 'react-icons/fi';
+import { castGroupedDice } from 'src/core/dice';
+import { useSockets } from 'src/core/socket';
+import TrayDie, { StyledDie } from 'src/components/TrayDie';
+
+const defaultDice: DieType[] = [
+  'd2',
+  'd3',
+  'd4',
+  'd6',
+  'd8',
+  'd10',
+  'd12',
+  'd100',
+];
 
 interface DiceState {
   dice: Die[];
@@ -17,40 +31,7 @@ const newDie = (type: DieType): Die => ({
   value: null,
 });
 
-const Die = styled.div`
-  width: 100px;
-  height: 100px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 5px;
-  border: 3px solid #fff;
-  color: #fff;
-  font-weight: 600;
-  text-transform: uppercase;
-  margin: 0.25rem;
-  flex-direction: column;
-  position: relative;
-
-  > * {
-    margin: 0.25rem;
-    font-weight: 300;
-  }
-
-  > span:first-child {
-    position: absolute;
-    left: 5px;
-    top: 5px;
-    font-sise: 0.9rem;
-  }
-
-  > span:last-child {
-    font-size: 2rem;
-    font-weight: 600;
-  }
-`;
-
-const AddDie = styled.button`
+const DieButton = styled.button`
   width: 50px;
   height: 50px;
   display: flex;
@@ -61,16 +42,24 @@ const AddDie = styled.button`
   color: #fff;
   font-weight: 600;
   text-transform: uppercase;
-  margin: 0.25rem;
+  margin-right: 0.5rem;
+  margin-top: 0.5rem;
   background: transparent;
   cursor: pointer;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+
   &:hover {
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
     background: rgba(255, 255, 255, 0.1);
+  }
+  &:first-child {
+    margin-left: 0;
   }
 `;
 
 const DieTable = styled.div`
-  padding: 1rem;
+  padding: 1rem 0rem;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -81,6 +70,14 @@ const ToolLabel = styled.h2`
   font-size: 1.5rem;
 `;
 
+const PlaceHolder = styled.h3`
+  font-size: 1.3rem;
+  font-weight: 300;
+  color: #777;
+  text-align: center;
+  width: 100%;
+`;
+
 const DiceContainer = styled.div`
   background: #3f3f3f;
   padding: 1rem;
@@ -88,8 +85,32 @@ const DiceContainer = styled.div`
   height: 100%;
 `;
 
+const ControlButton = styled.div`
+  background: #bb3f3f;
+  border: none;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  cursor: pointer;
+  padding: 0.5rem;
+  margin: 0.25rem;
+  color: #fff;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  svg {
+    margin-right: 0.5rem;
+  }
+
+  &:hover {
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  }
+`;
+
 const DiceControl = () => {
   const [diceState, setDiceState] = React.useState(initialDiceState);
+  const { sendMessage } = useSockets();
 
   const addDice = (dieType: DieType) => {
     setDiceState({
@@ -98,39 +119,63 @@ const DiceControl = () => {
   };
 
   const castDice = () => {
-    setDiceState({ dice: castGroupedDice(diceState.dice) });
+    const newDice = castGroupedDice(diceState.dice);
+    setDiceState({ dice: newDice });
+    return sendMessage(newDice);
   };
-  console.log(diceState);
+
+  const removeDie = (id: string) => {
+    const newDice = diceState.dice.filter((item) => item.id !== id);
+    setDiceState({ dice: newDice });
+  };
+
+  const allDieCast =
+    diceState.dice.length > 0 &&
+    diceState.dice.reduce((acc, next) => (!acc ? acc : !!next.value), true);
+
   return (
     <DiceContainer>
-      <ToolLabel>Grabbed dice</ToolLabel>
+      <ToolLabel>My dice tray</ToolLabel>
       <div>
         <DieTable>
-          {diceState.dice.map((item) => (
-            <Die key={item.id}>
-              <span>{item.type}</span>
-              <span>{item.value || ''}</span>
-            </Die>
-          ))}
-          <Die>
-            <span>Total:</span>
-            <span>
-              {diceState.dice.reduce((acc, next) => acc + next.value, 0)}
-            </span>
-          </Die>
+          <ControlButton onClick={castDice}>
+            <FiShuffle /> Cast dice
+          </ControlButton>
+          <ControlButton onClick={() => setDiceState(initialDiceState)}>
+            <FiXSquare />
+            Reset dice
+          </ControlButton>
         </DieTable>
-        <AddDie onClick={castDice}>Cast dice</AddDie>
+        <DieTable>
+          {diceState.dice.map((item) => (
+            <TrayDie
+              dieItem={item}
+              key={item.id}
+              deleteFn={removeDie}
+              clickFn={console.log}
+            />
+          ))}
+          {diceState.dice.length === 0 && (
+            <PlaceHolder>Select dice to cast below.</PlaceHolder>
+          )}
+          {allDieCast && (
+            <StyledDie>
+              <span>Total:</span>
+              <span>
+                {diceState.dice.reduce((acc, next) => acc + next.value, 0)}
+              </span>
+            </StyledDie>
+          )}
+        </DieTable>
       </div>
       <div>
         <ToolLabel>Add dice</ToolLabel>
         <DieTable>
-          <AddDie onClick={() => addDice('d2')}>d2</AddDie>
-          <AddDie onClick={() => addDice('d4')}>d4</AddDie>
-          <AddDie onClick={() => addDice('d6')}>d6</AddDie>
-          <AddDie onClick={() => addDice('d8')}>d8</AddDie>
-          <AddDie onClick={() => addDice('d10')}>d10</AddDie>
-          <AddDie onClick={() => addDice('d12')}>d12</AddDie>
-          <AddDie onClick={() => addDice('d100')}>d100</AddDie>
+          {defaultDice.map((die) => (
+            <DieButton key={die} onClick={() => addDice(die)}>
+              {die}
+            </DieButton>
+          ))}
         </DieTable>
       </div>
     </DiceContainer>

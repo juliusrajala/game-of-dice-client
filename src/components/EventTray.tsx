@@ -3,6 +3,7 @@ import { ulid } from 'ulid';
 import { getDieValue } from 'src/core/dice';
 import styled from 'styled-components';
 import { format } from 'date-fns';
+import { useSockets } from 'src/core/socket';
 
 const events: Array<DiceEvent> = [
   {
@@ -61,6 +62,14 @@ const Event = styled.div`
     text-transform: uppercase;
     font-size: 0.8rem;
   }
+
+  > span:last-child {
+    text-align: right;
+    width: 100%;
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 400;
+  }
 `;
 
 const EventDice = styled.span`
@@ -81,46 +90,47 @@ const Die = styled.div`
   color: #3f3f3f;
   font-weight: 600;
   text-transform: uppercase;
-  margin: 0.25rem;
+  margin-right: 0.5rem;
+  margin-top: 0.25rem;
   flex-direction: column;
   position: relative;
-
-  > * {
-  }
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 
   > span:first-child {
     position: absolute;
     left: 3px;
     top: 3px;
-    font-size: 0.5rem;
+    font-size: 0.6rem;
   }
 
   > span:last-child {
     font-size: 1.5rem;
-    font-weight: 600;
   }
 `;
 
 const EventTray = () => {
+  const { messages } = useSockets();
+  console.log('Messages', messages);
   return (
     <EventContainer>
-      <Title>What happened:</Title>
+      <Title>Last events:</Title>
       <div>
         {events.map((item) => (
           <Event key={item.event_id}>
             <h3>
-              {item.description} - {format(item.timestamp, 'HH.mm.ss')}
+              {item.description} @ {format(item.timestamp, 'HH.mm.ss')}
             </h3>
             {item.rolls.length > 0 && (
               <EventDice>
                 {item.rolls.map((roll) => (
-                  <Die>
+                  <Die key={roll.id}>
                     <span>{roll.type}</span>
                     <span>{roll.value}</span>
                   </Die>
                 ))}
               </EventDice>
             )}
+            <span>By {item.creator}</span>
           </Event>
         ))}
       </div>
