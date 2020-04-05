@@ -1,31 +1,26 @@
 import * as React from 'react';
 import { ulid } from 'ulid';
+import * as io from 'socket.io-client';
 
 export function useSockets() {
-  const [socket, setSocket] = React.useState<WebSocket>(null);
+  const [socketClient, setSocket] = React.useState<SocketIOClient.Socket>(null);
   const [messages, setMessages] = React.useState([]);
 
   React.useEffect(() => {
-    if (!socket) {
-      const webSocket = new WebSocket('ws://localhost:3001/');
-      webSocket.addEventListener('open', (ev: Event) => {
-        console.log(ev);
-        webSocket.send(`Connecting as ${ulid()}`);
-      });
+    if (!socketClient) {
+      const socket = io.connect('ws://localhost:3001');
 
-      webSocket.addEventListener('message', (ev: WebSocketMessageEvent) => {
-        console.log('data');
-        setMessages([...messages, ev.data]);
-        return webSocket.send('Message received.');
-      });
+      socket.on('connect', () => {});
 
-      setSocket(webSocket);
+      socket.on('message', (data) => {
+        console.log('Message received', data);
+      });
+      setSocket(socket);
     }
 
     return () => {
-      if (socket) {
-        socket.removeEventListener('open', () => {});
-        socket.removeEventListener('message', () => {});
+      if (socketClient) {
+        socketClient.disconnect();
       }
     };
   }, []);
@@ -33,7 +28,7 @@ export function useSockets() {
   function sendMessage(data: any, eventType: EventType = 'dice_event') {
     switch (eventType) {
       case 'dice_event':
-        return socket.send(
+        return socketClient.send(
           JSON.stringify({
             event_type: eventType,
             creator: ulid(),

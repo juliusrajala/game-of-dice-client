@@ -31,6 +31,82 @@ const newDie = (type: DieType): Die => ({
   value: null,
 });
 
+const DiceControl = () => {
+  const [diceState, setDiceState] = React.useState(initialDiceState);
+  const { sendMessage } = useSockets();
+
+  const addDice = (dieType: DieType) => {
+    setDiceState({
+      dice: diceState.dice.concat(newDie(dieType)),
+    });
+  };
+
+  const castDice = () => {
+    const newDice = castGroupedDice(diceState.dice);
+    setDiceState({ dice: newDice });
+    return sendMessage(newDice);
+  };
+
+  const removeDie = (id: string) => {
+    const newDice = diceState.dice.filter((item) => item.id !== id);
+    setDiceState({ dice: newDice });
+  };
+
+  const allDieCast =
+    diceState.dice.length > 0 &&
+    diceState.dice.reduce((acc, next) => (!acc ? acc : !!next.value), true);
+
+  return (
+    <DiceContainer>
+      <ToolLabel>My dice tray</ToolLabel>
+      <div>
+        <DieTable>
+          <ControlButton onClick={castDice}>
+            <FiShuffle /> Cast dice
+          </ControlButton>
+          <ControlButton onClick={() => setDiceState(initialDiceState)}>
+            <FiXSquare />
+            Reset dice
+          </ControlButton>
+        </DieTable>
+        <DieTable>
+          {diceState.dice.map((item) => (
+            <TrayDie
+              dieItem={item}
+              key={item.id}
+              deleteFn={removeDie}
+              clickFn={console.log}
+            />
+          ))}
+          {diceState.dice.length === 0 && (
+            <PlaceHolder>Select dice to cast below.</PlaceHolder>
+          )}
+          {allDieCast && (
+            <StyledDie>
+              <span>Total:</span>
+              <span>
+                {diceState.dice.reduce((acc, next) => acc + next.value, 0)}
+              </span>
+            </StyledDie>
+          )}
+        </DieTable>
+      </div>
+      <div>
+        <ToolLabel>Add dice</ToolLabel>
+        <DieTable>
+          {defaultDice.map((die) => (
+            <DieButton key={die} onClick={() => addDice(die)}>
+              {die}
+            </DieButton>
+          ))}
+        </DieTable>
+      </div>
+    </DiceContainer>
+  );
+};
+
+export default DiceControl;
+
 const DieButton = styled.button`
   width: 50px;
   height: 50px;
@@ -107,79 +183,3 @@ const ControlButton = styled.div`
     box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
   }
 `;
-
-const DiceControl = () => {
-  const [diceState, setDiceState] = React.useState(initialDiceState);
-  const { sendMessage } = useSockets();
-
-  const addDice = (dieType: DieType) => {
-    setDiceState({
-      dice: diceState.dice.concat(newDie(dieType)),
-    });
-  };
-
-  const castDice = () => {
-    const newDice = castGroupedDice(diceState.dice);
-    setDiceState({ dice: newDice });
-    return sendMessage(newDice);
-  };
-
-  const removeDie = (id: string) => {
-    const newDice = diceState.dice.filter((item) => item.id !== id);
-    setDiceState({ dice: newDice });
-  };
-
-  const allDieCast =
-    diceState.dice.length > 0 &&
-    diceState.dice.reduce((acc, next) => (!acc ? acc : !!next.value), true);
-
-  return (
-    <DiceContainer>
-      <ToolLabel>My dice tray</ToolLabel>
-      <div>
-        <DieTable>
-          <ControlButton onClick={castDice}>
-            <FiShuffle /> Cast dice
-          </ControlButton>
-          <ControlButton onClick={() => setDiceState(initialDiceState)}>
-            <FiXSquare />
-            Reset dice
-          </ControlButton>
-        </DieTable>
-        <DieTable>
-          {diceState.dice.map((item) => (
-            <TrayDie
-              dieItem={item}
-              key={item.id}
-              deleteFn={removeDie}
-              clickFn={console.log}
-            />
-          ))}
-          {diceState.dice.length === 0 && (
-            <PlaceHolder>Select dice to cast below.</PlaceHolder>
-          )}
-          {allDieCast && (
-            <StyledDie>
-              <span>Total:</span>
-              <span>
-                {diceState.dice.reduce((acc, next) => acc + next.value, 0)}
-              </span>
-            </StyledDie>
-          )}
-        </DieTable>
-      </div>
-      <div>
-        <ToolLabel>Add dice</ToolLabel>
-        <DieTable>
-          {defaultDice.map((die) => (
-            <DieButton key={die} onClick={() => addDice(die)}>
-              {die}
-            </DieButton>
-          ))}
-        </DieTable>
-      </div>
-    </DiceContainer>
-  );
-};
-
-export default DiceControl;
