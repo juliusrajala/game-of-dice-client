@@ -3,6 +3,8 @@ import * as ReactDOM from 'react-dom';
 import styled from 'styled-components';
 import Greeting from 'src/components/Greeting';
 import Footer from 'src/components/Footer';
+import DiceControl from './components/DiceControl';
+import EventTray from './components/EventTray';
 // import { createStore, applyMiddleware } from 'redux';
 // import { Provider } from 'react-redux';
 // import { composeWithDevTools } from 'redux-devtools-extension';
@@ -48,12 +50,27 @@ const Page = styled.div`
   height: 100vh;
   min-height: 100%;
   background-color: #214761;
+
+  * {
+    font-family: 'Source Sans Pro', Helvetica, Arial;
+  }
 `;
 
 const App: React.SFC<any> = ({ store }: any) => (
   // <Provider store={store}>
   <Page>
-    <Greeting target="World" />
+    <div
+      style={{
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        display: 'flex',
+        width: '900px',
+      }}
+    >
+      <DiceControl />
+      <EventTray />
+    </div>
     <Footer />
   </Page>
   // </Provider>
