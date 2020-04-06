@@ -5,6 +5,7 @@ import { FiShuffle, FiXSquare } from 'react-icons/fi';
 import { castGroupedDice } from 'src/core/dice';
 import { useSockets } from 'src/core/socket';
 import TrayDie, { StyledDie } from 'src/components/TrayDie';
+import { sendDiceRoll } from 'src/core/api';
 
 const defaultDice: DieType[] = [
   'd2',
@@ -43,18 +44,7 @@ const DiceControl = () => {
   const castDice = () => {
     const newDice = castGroupedDice(diceState.dice);
     setDiceState({ dice: newDice });
-    return fetch('http://localhost:3001/api/v1/events/create', {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      method: 'POST',
-      body: JSON.stringify({
-        rolls: newDice,
-        event_type: 'dice_event',
-        creator_id: 'Julius',
-        description: 'Dice cast',
-      }),
-    });
+    return sendDiceRoll(newDice);
   };
 
   const removeDie = (id: string) => {
@@ -70,15 +60,6 @@ const DiceControl = () => {
     <DiceContainer>
       <ToolLabel>My dice tray</ToolLabel>
       <div>
-        <DieTable>
-          <ControlButton onClick={castDice}>
-            <FiShuffle /> Cast dice
-          </ControlButton>
-          <ControlButton onClick={() => setDiceState(initialDiceState)}>
-            <FiXSquare />
-            Reset dice
-          </ControlButton>
-        </DieTable>
         <DieTable>
           {diceState.dice.map((item) => (
             <TrayDie
@@ -111,6 +92,15 @@ const DiceControl = () => {
           ))}
         </DieTable>
       </div>
+      <DieTable>
+        <ControlButton onClick={castDice}>
+          <FiShuffle /> Cast dice
+        </ControlButton>
+        <ControlButton onClick={() => setDiceState(initialDiceState)}>
+          <FiXSquare />
+          Reset dice
+        </ControlButton>
+      </DieTable>
     </DiceContainer>
   );
 };
@@ -162,6 +152,8 @@ const PlaceHolder = styled.h3`
   color: #777;
   text-align: center;
   width: 100%;
+  height: 100px;
+  margin-top: 0.75rem;
 `;
 
 const DiceContainer = styled.div`
