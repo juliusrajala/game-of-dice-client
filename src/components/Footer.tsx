@@ -20,6 +20,6 @@ const FooterBar = styled.div`
     }
   }
 `;
-const Footer = () => <FooterBar>Copyright Julius Rajala, 2020</FooterBar>;
+const Footer = () => <FooterBar>Julius Rajala, 2020</FooterBar>;
 
 export default Footer;

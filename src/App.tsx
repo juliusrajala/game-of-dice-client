@@ -5,6 +5,7 @@ import Greeting from 'src/components/Greeting';
 import Footer from 'src/components/Footer';
 import DiceControl from './components/DiceControl';
 import EventTray from './components/EventTray';
+import UserPanel from './components/UserPanel';
 // import { createStore, applyMiddleware } from 'redux';
 // import { Provider } from 'react-redux';
 // import { composeWithDevTools } from 'redux-devtools-extension';
@@ -41,7 +42,7 @@ const ReactApp = () => {
   );
 };
 
-const Page = styled.div`
+const Page = styled.main`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -54,6 +55,13 @@ const Page = styled.div`
   * {
     font-family: 'Source Sans Pro', Helvetica, Arial;
   }
+`;
+
+const MainPanel = styled.section`
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 `;
 
 const App: React.SFC<any> = ({ store }: any) => (
@@ -70,7 +78,10 @@ const App: React.SFC<any> = ({ store }: any) => (
         padding: '5rem',
       }}
     >
-      <DiceControl />
+      <MainPanel>
+        <UserPanel />
+        <DiceControl />
+      </MainPanel>
       <EventTray />
     </div>
     <Footer />

@@ -1,12 +1,11 @@
 import * as React from 'react';
 import { ulid } from 'ulid';
-import styled, { StyledComponent } from 'styled-components';
+import styled from 'styled-components';
 import { FiShuffle, FiXSquare } from 'react-icons/fi';
 import { castGroupedDice } from 'src/core/dice';
-import { useSockets } from 'src/core/socket';
 import TrayDie, { StyledDie } from 'src/components/TrayDie';
-import { sendDiceRoll } from 'src/core/api';
-import InputSwitch from './InputSwitch';
+import { postRollEvent } from 'src/core/api';
+import InputSwitch from 'src/components/InputSwitch';
 
 const defaultDice: DieType[] = [
   'd2',
@@ -49,7 +48,7 @@ const DiceControl = () => {
     if (!isOnline || newDice.length === 0) {
       return;
     }
-    return sendDiceRoll(newDice);
+    return postRollEvent(newDice);
   };
 
   const removeDie = (id: string) => {
@@ -65,7 +64,7 @@ const DiceControl = () => {
     <DiceContainer>
       <OnlineControl>
         <InputSwitch
-          label="Online"
+          label="Deliver"
           isToggled={isOnline}
           toggle={() => setOnline(!isOnline)}
         />
@@ -188,6 +187,8 @@ const DiceContainer = styled.div`
   padding: 1rem;
   flex: 2;
   height: 100%;
+  border-radius: 5px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 `;
 
 const ControlButton = styled.div`

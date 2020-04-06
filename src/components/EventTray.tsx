@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { format } from 'date-fns';
-import { useSockets } from 'src/core/socket';
+import { useSocket } from 'src/core/socket';
 
 function getEventType(event: DndEvent) {
   switch (event.event_type) {
@@ -13,18 +13,19 @@ function getEventType(event: DndEvent) {
 }
 
 const EventTray = () => {
-  const messageStream = useSockets();
+  const { message, connected } = useSocket();
   const [events, setEvents] = React.useState([]);
 
   React.useEffect(() => {
-    if (messageStream) {
-      setEvents([...events, messageStream]);
+    if (message) {
+      setEvents([...events, message]);
     }
-  }, [messageStream]);
+  }, [message]);
 
   return (
     <EventContainer>
       <Title>Last events:</Title>
+      <ConnectionIndicator cssProps={{ connected }} />
       <div>
         {events.map((item) => (
           <Event key={item.event_id}>
@@ -51,11 +52,29 @@ const EventTray = () => {
 
 export default EventTray;
 
+const ConnectionIndicator = styled.span`
+  content: '';
+  position: absolute;
+  height: 30px;
+  width: 30px;
+  top: 1rem;
+  right: 1rem;
+  background: ${(props: JSX.IntrinsicAttributes) =>
+    props.cssProps.connected ? '#05c46b' : '#ff3f34'};
+  border-radius: 50%;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  z-index: 2;
+`;
+
 const EventContainer = styled.div`
   padding: 1rem;
   background: rgba(255, 255, 255, 0.9);
   flex: 1;
+  border-radius: 5px;
+  margin-left: 1rem;
   height: 100%;
+  position: relative;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 `;
 
 const Title = styled.h2`
