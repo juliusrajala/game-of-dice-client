@@ -3,6 +3,15 @@ import styled from 'styled-components';
 import { format } from 'date-fns';
 import { useSockets } from 'src/core/socket';
 
+function getEventType(event: DndEvent) {
+  switch (event.event_type) {
+    case 'dice_event':
+      return 'Dice cast';
+    default:
+      return 'Something happened';
+  }
+}
+
 const EventTray = () => {
   const messageStream = useSockets();
   const [events, setEvents] = React.useState([]);
@@ -20,8 +29,7 @@ const EventTray = () => {
         {events.map((item) => (
           <Event key={item.event_id}>
             <h3>
-              {item.description} @{' '}
-              {format(parseInt(item.timestamp), 'HH.mm.ss')}
+              {getEventType(item)} @ {format(parseInt(item.timestamp), 'HH.mm')}
             </h3>
             {item.rolls.length > 0 && (
               <EventDice>

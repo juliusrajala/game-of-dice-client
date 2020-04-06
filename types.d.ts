@@ -1,5 +1,6 @@
 declare namespace JSX {
   interface IntrinsicAttributes {
+    cssProps?: any;
     isToggled?: boolean;
     onClick?: (any?) => void;
   }
@@ -31,7 +32,7 @@ declare interface Die {
 }
 
 declare interface DndEvent {
-  event_type: 'dice' | 'hp';
+  event_type: EventType;
   event_id: string;
   creator: string;
   timestamp: number;
@@ -39,13 +40,13 @@ declare interface DndEvent {
 }
 
 declare interface DiceEvent extends DndEvent {
-  event_type: 'dice';
+  event_type: 'dice_event';
   rolls: Die[];
   skill?: string;
 }
 
 declare interface HpEvent extends DndEvent {
-  event_type: 'hp';
+  event_type: 'hp_event';
   target: string;
   value: number;
   type: 'spell' | 'elemental' | 'non-lethal' | 'trap';

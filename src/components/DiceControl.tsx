@@ -1,11 +1,12 @@
 import * as React from 'react';
 import { ulid } from 'ulid';
-import styled from 'styled-components';
+import styled, { StyledComponent } from 'styled-components';
 import { FiShuffle, FiXSquare } from 'react-icons/fi';
 import { castGroupedDice } from 'src/core/dice';
 import { useSockets } from 'src/core/socket';
 import TrayDie, { StyledDie } from 'src/components/TrayDie';
 import { sendDiceRoll } from 'src/core/api';
+import InputSwitch from './InputSwitch';
 
 const defaultDice: DieType[] = [
   'd2',
@@ -34,6 +35,7 @@ const newDie = (type: DieType): Die => ({
 
 const DiceControl = () => {
   const [diceState, setDiceState] = React.useState(initialDiceState);
+  const [isOnline, setOnline] = React.useState(true);
 
   const addDice = (dieType: DieType) => {
     setDiceState({
@@ -44,6 +46,9 @@ const DiceControl = () => {
   const castDice = () => {
     const newDice = castGroupedDice(diceState.dice);
     setDiceState({ dice: newDice });
+    if (!isOnline || newDice.length === 0) {
+      return;
+    }
     return sendDiceRoll(newDice);
   };
 
@@ -58,7 +63,16 @@ const DiceControl = () => {
 
   return (
     <DiceContainer>
-      <ToolLabel>My dice tray</ToolLabel>
+      <OnlineControl>
+        <InputSwitch
+          label="Online"
+          isToggled={isOnline}
+          toggle={() => setOnline(!isOnline)}
+        />
+      </OnlineControl>
+      <DieTable>
+        <ToolLabel>My dice tray</ToolLabel>
+      </DieTable>
       <div>
         <DieTable>
           {diceState.dice.map((item) => (
@@ -107,6 +121,13 @@ const DiceControl = () => {
 
 export default DiceControl;
 
+const OnlineControl = styled.span`
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  padding-top: 1rem;
+`;
+
 const DieButton = styled.button`
   width: 50px;
   height: 50px;
@@ -139,6 +160,9 @@ const DieTable = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  > * {
+    margin-right: 0.5rem;
+  }
 `;
 
 const ToolLabel = styled.h2`
@@ -146,17 +170,20 @@ const ToolLabel = styled.h2`
   font-size: 1.5rem;
 `;
 
-const PlaceHolder = styled.h3`
+const PlaceHolder = styled.div`
   font-size: 1.3rem;
   font-weight: 300;
   color: #777;
-  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 100%;
   height: 100px;
   margin-top: 0.75rem;
 `;
 
 const DiceContainer = styled.div`
+  position: relative;
   background: #3f3f3f;
   padding: 1rem;
   flex: 2;
