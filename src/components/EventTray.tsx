@@ -1,6 +1,4 @@
 import * as React from 'react';
-import { ulid } from 'ulid';
-import { getDieValue } from 'src/core/dice';
 import styled from 'styled-components';
 import { format } from 'date-fns';
 import { useSockets } from 'src/core/socket';

@@ -4,17 +4,17 @@ import * as io from 'socket.io-client';
 
 export function useSockets() {
   const [socketClient, setSocket] = React.useState<SocketIOClient.Socket>(null);
-  const [message, setMessage] = React.useState();
+  const [messageHolder, pushMessage] = React.useState(null);
 
   React.useEffect(() => {
-    console.log('Messages', message);
+    console.log('Messages', messageHolder);
     if (!socketClient) {
       const socket = io.connect('ws://localhost:3001');
 
       socket.on('connect', () => {});
 
       socket.on('message', (data) => {
-        setMessage(data);
+        pushMessage(data);
       });
       setSocket(socket);
     }
@@ -26,5 +26,5 @@ export function useSockets() {
     };
   }, []);
 
-  return message;
+  return messageHolder;
 }
