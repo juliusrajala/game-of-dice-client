@@ -7,7 +7,9 @@ import { FiUnlock } from 'react-icons/fi';
 const NewUserForm = () => {
   const [credentials, setCredentials] = React.useState({ name: '', email: '' });
 
-  const createUser = () => {
+  const createUser = (ev: React.SyntheticEvent<HTMLButtonElement>) => {
+    ev.preventDefault();
+    ev.stopPropagation();
     postNewUser(credentials.name, credentials.email);
   };
 
@@ -28,7 +30,7 @@ const NewUserForm = () => {
           setCredentials({ ...credentials, email: ev.target.value })
         }
       />
-      <Button role="button">
+      <Button role="button" onClick={createUser}>
         <FiUnlock />
         Login
       </Button>
