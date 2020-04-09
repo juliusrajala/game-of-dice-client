@@ -1,7 +1,9 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { format } from 'date-fns';
-import { useSocket } from 'src/core/socket';
+import { useSocket } from 'src/hooks/socket';
+import { useRequestedData } from 'src/hooks/http';
+import { getEvents } from 'src/core/api';
 
 function getEventType(event: DndEvent) {
   switch (event.event_type) {
@@ -15,6 +17,13 @@ function getEventType(event: DndEvent) {
 const EventTray = () => {
   const { message, connected } = useSocket();
   const [events, setEvents] = React.useState([]);
+  const [requestState] = useRequestedData<DndEvent[]>(getEvents());
+
+  React.useEffect(() => {
+    if (requestState.status === 'fulfilled') {
+      setEvents(requestState.data);
+    }
+  }, [requestState]);
 
   React.useEffect(() => {
     if (message) {

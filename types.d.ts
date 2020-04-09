@@ -31,6 +31,12 @@ declare interface Die {
   value: number | null;
 }
 
+declare interface User {
+  user_email: string;
+  user_name: string;
+  user_id: string;
+}
+
 declare interface DndEvent {
   event_type: EventType;
   event_id: string;

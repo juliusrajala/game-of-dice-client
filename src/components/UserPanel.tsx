@@ -1,22 +1,12 @@
 import * as React from 'react';
 import styled from 'styled-components';
+import { useStoredUser, useRequestedData } from 'src/hooks/http';
+import { getUser } from 'src/core/api';
 
 // Yeah. Let's be honest, we're not even trying to be secure here.
 // So if you read this. Don't use it as an inspiration for your
 // customer facing application. This is only to provide a very thin
 // layer of identity.
-
-function useStoredUser() {
-  const [storedUserId, setStoredUserId] = React.useState(null);
-  React.useEffect(() => {
-    const locallyStored = localStorage.getItem('godUserId');
-    if (locallyStored) {
-      setStoredUserId(locallyStored);
-    }
-  }, []);
-
-  return storedUserId;
-}
 
 const UserPanel = () => {
   const userId = useStoredUser();
@@ -24,11 +14,21 @@ const UserPanel = () => {
     return <NewUserForm />;
   }
 
-  return <div></div>;
+  const [requestState] = useRequestedData<User>(
+    getUser(userId, 'juliusrajala@gmail.com')
+  );
+
+  if (requestState.status === 'pending') {
+    <div>Loading...</div>;
+  }
+
+  return <div>{requestState.data.user_name}</div>;
 };
 
 const NewUserForm = () => {
   const [credentials, setCredentials] = React.useState({ name: '', email: '' });
+
+  const createUser = () => {};
 
   return (
     <UserContainer>
