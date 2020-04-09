@@ -2,6 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { useStoredUser, useRequestedData } from 'src/hooks/http';
 import { getUser } from 'src/core/api';
+import NewUserForm from 'src/components/NewUserForm';
 
 // Yeah. Let's be honest, we're not even trying to be secure here.
 // So if you read this. Don't use it as an inspiration for your
@@ -11,7 +12,11 @@ import { getUser } from 'src/core/api';
 const UserPanel = () => {
   const userId = useStoredUser();
   if (!userId) {
-    return <NewUserForm />;
+    return (
+      <UserContainer>
+        <NewUserForm />
+      </UserContainer>
+    );
   }
 
   const [requestState] = useRequestedData<User>(
@@ -19,40 +24,10 @@ const UserPanel = () => {
   );
 
   if (requestState.status === 'pending') {
-    <div>Loading...</div>;
+    <UserContainer>Loading...</UserContainer>;
   }
 
-  return <div>{requestState.data.user_name}</div>;
-};
-
-const NewUserForm = () => {
-  const [credentials, setCredentials] = React.useState({ name: '', email: '' });
-
-  const createUser = () => {};
-
-  return (
-    <UserContainer>
-      <div>
-        <label>
-          <span>Name</span>
-          <input
-            onChange={(ev) =>
-              setCredentials({ ...credentials, name: ev.target.value })
-            }
-          />
-        </label>
-        <label>
-          <span>Email</span>
-          <input
-            onChange={(ev) =>
-              setCredentials({ ...credentials, email: ev.target.value })
-            }
-          />
-        </label>
-      </div>
-      <button>Login</button>
-    </UserContainer>
-  );
+  return <UserContainer>{requestState.data.user_name}</UserContainer>;
 };
 
 export default UserPanel;
