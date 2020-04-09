@@ -37,10 +37,10 @@ export const postNewUser = (name, email) => {
     }),
   })
     .then((response) => response.json())
-    .then((result) => {
-      if (result.id) {
+    .then((result: User) => {
+      if (result.user_id) {
         // This is how we persist users, I guess.
-        localStorage.setItem('godUserId', result.id);
+        localStorage.setItem('godUserId', result.user_id);
       }
       return result;
     })
@@ -59,10 +59,10 @@ export const getUser = (id, email) => {
     }),
   })
     .then((response) => response.json())
-    .then((result) => {
-      if (result.id) {
+    .then((result: User) => {
+      if (result.user_id) {
         // This is how we persist users, I guess.
-        localStorage.setItem('godUserId', result.id);
+        localStorage.setItem('godUserId', result.user_id);
       }
       return result;
     })

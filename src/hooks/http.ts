@@ -14,14 +14,16 @@ const initialState: RequestState<any> = {
   data: null,
 };
 
-export function useRequestedData<T>(fetcher: Promise<T>): RequestDataSource<T> {
+export function useRequestedData<T>(
+  fetcher: Promise<T | void>
+): RequestDataSource<T> {
   const [state, setState] = React.useState<RequestState<T>>(initialState);
 
   React.useEffect(() => {
     if (state.status === '') {
       setState({ ...state, status: 'pending' });
       Promise.resolve(fetcher)
-        .then((result) =>
+        .then((result: T) =>
           setState({
             status: 'fulfilled',
             data: result,
