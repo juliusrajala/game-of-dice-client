@@ -2,9 +2,9 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import styled from 'styled-components';
 import Footer from 'src/components/Footer';
-import DiceControl from 'src/containers/DiceControl';
-import EventTray from 'src/containers/EventTray';
-import UserPanel from 'src/containers/UserPanel';
+import DiceControl from 'src/containers/Dice';
+import EventTray from 'src/containers/Events';
+import UserPanel from 'src/containers/Users';
 
 const ReactApp = () => {
   return ReactDOM.render(<App />, document.getElementById('react-root'));

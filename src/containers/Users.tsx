@@ -1,8 +1,9 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { useStoredUser, useRequestedData } from 'src/hooks/http';
+import { useRequestedData } from 'src/hooks/http';
 import { getUser } from 'src/core/api';
 import NewUserForm from 'src/components/NewUserForm';
+import { useStoredUser } from 'src/hooks/storage';
 
 // Yeah. Let's be honest, we're not even trying to be secure here.
 // So if you read this. Don't use it as an inspiration for your
