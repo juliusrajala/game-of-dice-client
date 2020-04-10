@@ -48,7 +48,6 @@ const App: React.SFC<any> = () => {
   const [user, setUser] = React.useState<User>(null);
 
   const userId = useStoredUser();
-
   const [requestState] = useRequestedData<User>(getUser(userId));
 
   React.useEffect(() => {
