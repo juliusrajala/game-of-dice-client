@@ -32,27 +32,42 @@ const MainPanel = styled.section`
   height: 100%;
 `;
 
-const App: React.SFC<any> = () => (
-  <Page>
-    <div
-      style={{
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        display: 'flex',
-        minWidth: '900px',
-        width: '100%',
-        padding: '5rem',
-      }}
-    >
-      <MainPanel>
-        <UserPanel />
-        <DiceControl />
-      </MainPanel>
-      <EventTray />
-    </div>
-    <Footer />
-  </Page>
-);
+interface UserContext {
+  user: User | null;
+  setUser?: (user: User) => void;
+}
+
+const Users = React.createContext<UserContext>({
+  user: null,
+});
+
+const App: React.SFC<any> = () => {
+  const [user, setUser] = React.useState<User>(null);
+
+  return (
+    <Users.Provider value={{ user, setUser }}>
+      <Page>
+        <div
+          style={{
+            flex: 1,
+            alignItems: 'center',
+            justifyContent: 'center',
+            display: 'flex',
+            minWidth: '900px',
+            width: '100%',
+            padding: '5rem',
+          }}
+        >
+          <MainPanel>
+            <UserPanel />
+            <DiceControl />
+          </MainPanel>
+          <EventTray />
+        </div>
+        <Footer />
+      </Page>
+    </Users.Provider>
+  );
+};
 
 ReactApp();
