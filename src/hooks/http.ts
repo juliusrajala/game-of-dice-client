@@ -43,15 +43,3 @@ export function useRequestedData<T>(
   // Returns a request-state and a function to reset the request for a retry.
   return [state, () => setState(initialState)];
 }
-
-export function useStoredUser() {
-  const [storedUserId, setStoredUserId] = React.useState(null);
-  React.useEffect(() => {
-    const locallyStored = localStorage.getItem('godUserId');
-    if (locallyStored) {
-      setStoredUserId(locallyStored);
-    }
-  }, []);
-
-  return storedUserId;
-}
