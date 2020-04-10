@@ -47,7 +47,7 @@ export const postNewUser = (name, email) => {
     .catch(console.error);
 };
 
-export const getUser = (id, email) => {
+export const getUser = (id) => {
   return fetch(`${apiBase}/user`, {
     headers: {
       'Content-Type': 'application/json',
@@ -55,7 +55,6 @@ export const getUser = (id, email) => {
     method: 'POST',
     body: JSON.stringify({
       id,
-      email,
     }),
   })
     .then((response) => response.json())

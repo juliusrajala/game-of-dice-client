@@ -5,6 +5,9 @@ import Footer from 'src/components/Footer';
 import DiceControl from 'src/containers/Dice';
 import EventTray from 'src/containers/Events';
 import UserPanel from 'src/containers/Users';
+import { useRequestedData } from './hooks/http';
+import { useStoredUser } from './hooks/storage';
+import { getUser } from './core/api';
 
 const ReactApp = () => {
   return ReactDOM.render(<App />, document.getElementById('react-root'));
@@ -43,6 +46,16 @@ export const Users = React.createContext<UserContext>({
 
 const App: React.SFC<any> = () => {
   const [user, setUser] = React.useState<User>(null);
+
+  const userId = useStoredUser();
+
+  const [requestState] = useRequestedData<User>(getUser(userId));
+
+  React.useEffect(() => {
+    if (requestState.status === 'fulfilled' && !!requestState.data) {
+      setUser(requestState.data);
+    }
+  }, [requestState]);
 
   return (
     <Users.Provider value={{ user, setUser }}>
