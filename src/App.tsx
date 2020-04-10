@@ -1,45 +1,13 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import styled from 'styled-components';
-import Greeting from 'src/components/Greeting';
 import Footer from 'src/components/Footer';
-import DiceControl from './containers/DiceControl';
-import EventTray from './containers/EventTray';
-import UserPanel from './containers/UserPanel';
-// import { createStore, applyMiddleware } from 'redux';
-// import { Provider } from 'react-redux';
-// import { composeWithDevTools } from 'redux-devtools-extension';
-
-/* Configure Redux-store *
-
-function configureStore() {
-  const epics = configureEpics();
-
-  const epicMiddleWare = createEpicMiddleware();
-  const store = createStore(
-    testStore,
-    composeWithDevTools(applyMiddleware(epicMiddleWare))
-  );
-
-  epicMiddleWare.run(epics);
-
-  return store;
-} */
+import DiceControl from 'src/containers/DiceControl';
+import EventTray from 'src/containers/EventTray';
+import UserPanel from 'src/containers/UserPanel';
 
 const ReactApp = () => {
-  /* Enable with Redux *
-  const reduxStore = configureStore();
-  const { dispatch, getState } = reduxStore;
-
-  if (process.env.NODE_ENV === 'development') {
-    console.debug('Running app in Development Mode');
-    window['redux'] = {dispatch, getState};
-  } */
-
-  return ReactDOM.render(
-    <App /* store={reduxStore} */ />,
-    document.getElementById('react-root')
-  );
+  return ReactDOM.render(<App />, document.getElementById('react-root'));
 };
 
 const Page = styled.main`
@@ -64,8 +32,7 @@ const MainPanel = styled.section`
   height: 100%;
 `;
 
-const App: React.SFC<any> = ({ store }: any) => (
-  // <Provider store={store}>
+const App: React.SFC<any> = () => (
   <Page>
     <div
       style={{
@@ -86,7 +53,6 @@ const App: React.SFC<any> = ({ store }: any) => (
     </div>
     <Footer />
   </Page>
-  // </Provider>
 );
 
 ReactApp();
