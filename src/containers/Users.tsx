@@ -1,9 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { useRequestedData } from 'src/hooks/http';
-import { getUser } from 'src/core/api';
-import NewUserForm from 'src/components/UserForm';
-import { useStoredUser } from 'src/hooks/storage';
+import { Users } from 'src/App';
+import UserForm from 'src/components/UserForm';
 
 // Yeah. Let's be honest, we're not even trying to be secure here.
 // So if you read this. Don't use it as an inspiration for your
@@ -11,24 +9,15 @@ import { useStoredUser } from 'src/hooks/storage';
 // layer of identity.
 
 const UserPanel = () => {
-  const userId = useStoredUser();
-  if (!userId) {
+  const userContext = React.useContext(Users);
+  if (!userContext.user) {
     return (
       <UserContainer>
-        <NewUserForm />
+        <UserForm />
       </UserContainer>
     );
   }
-
-  const [requestState] = useRequestedData<User>(
-    getUser(userId, 'juliusrajala@gmail.com')
-  );
-
-  if (requestState.status === 'pending') {
-    <UserContainer>Loading...</UserContainer>;
-  }
-
-  return <UserContainer>{requestState.data.user_name}</UserContainer>;
+  return <UserContainer>{userContext.user.user_name}</UserContainer>;
 };
 
 export default UserPanel;
