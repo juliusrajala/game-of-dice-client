@@ -7,6 +7,7 @@ import EventTray from 'src/containers/Events';
 import UserPanel from 'src/containers/Users';
 import { useStoredUser } from 'src/hooks/storage';
 import { getUser } from 'src/core/api';
+import NewUserForm from './components/UserForm';
 
 const ReactApp = () => {
   return ReactDOM.render(<App />, document.getElementById('react-root'));
@@ -59,28 +60,33 @@ const App: React.SFC<any> = () => {
   return (
     <Users.Provider value={{ user, setUser, logOut: () => setUser(null) }}>
       <Page>
-        <div
-          style={{
-            flex: 1,
-            justifyContent: 'center',
-            display: 'flex',
-            minWidth: '900px',
-            width: '100%',
-            padding: '5rem',
-            maxHeight: '1000px',
-            flexDirection: 'row',
-          }}
-        >
-          <MainPanel>
-            <UserPanel />
-            <DiceControl />
-          </MainPanel>
-          <EventTray />
-        </div>
+        <ContentWrapper>
+          {!user ? (
+            <NewUserForm />
+          ) : (
+            <>
+              <MainPanel>
+                <UserPanel />
+                <DiceControl />
+              </MainPanel>
+              <EventTray />
+            </>
+          )}
+        </ContentWrapper>
         <Footer />
       </Page>
     </Users.Provider>
   );
 };
+
+const ContentWrapper = styled.div`
+  flex: 1;
+  justify-content: center;
+  display: flex;
+  width: 100%;
+  padding: 5rem;
+  max-height: 1000px;
+  flex-direction: row;
+`;
 
 ReactApp();

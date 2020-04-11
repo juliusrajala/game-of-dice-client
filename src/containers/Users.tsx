@@ -2,7 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { Users } from 'src/App';
 import UserForm from 'src/components/UserForm';
-import Characters from './Characters';
+import Characters from 'src/containers/Characters';
 
 // Yeah. Let's be honest, we're not even trying to be secure here.
 // So if you read this. Don't use it as an inspiration for your
@@ -11,14 +11,6 @@ import Characters from './Characters';
 
 const UserPanel = () => {
   const userContext = React.useContext(Users);
-  console.log('User context', userContext);
-  if (!userContext.user) {
-    return (
-      <UserContainer>
-        <UserForm />
-      </UserContainer>
-    );
-  }
   return (
     <UserContainer>
       {userContext.user.user_name}

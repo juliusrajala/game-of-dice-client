@@ -2,21 +2,21 @@ import * as React from 'react';
 import styled from 'styled-components';
 
 interface Props {
-  label: string;
+  label: string | React.ReactNode;
   inputProps?: React.HTMLProps<HTMLInputElement>;
   onChange: (ev: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const Component = (props: Props) => {
+const Input = (props: Props) => {
   return (
     <Container>
       <Label>{props.label}</Label>
-      <Input onChange={props.onChange} {...props.inputProps} />
+      <InputEl onChange={props.onChange} {...props.inputProps} />
     </Container>
   );
 };
 
-export default Component;
+export default Input;
 
 const Container = styled.label`
   display: flex;
@@ -27,7 +27,7 @@ const Container = styled.label`
 
 // There's a better typing to this that I can't bet bothered to set together
 // it needs to be used to allow for setting the inputProps.
-const Input: any = styled.input`
+const InputEl: any = styled.input`
   background: #fff;
   border: none;
   border-radius: 0.25rem;
@@ -39,4 +39,11 @@ const Label = styled.span`
   font-size: 0.8rem;
   margin-bottom: 0.25rem;
   text-transform: uppercase;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  & > svg {
+    margin-right: 0.5rem;
+  }
 `;
