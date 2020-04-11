@@ -35,6 +35,7 @@ declare interface User {
   user_email: string;
   user_name: string;
   user_id: string;
+  color: string;
 }
 
 declare interface DndEvent {
@@ -56,4 +57,13 @@ declare interface HpEvent extends DndEvent {
   target: string;
   value: number;
   type: 'spell' | 'elemental' | 'non-lethal' | 'trap';
+}
+
+declare interface Character {
+  character_id: string;
+  character_name: string;
+  hit_points: number;
+  armor_class: number;
+  attack_bonus: number;
+  damage_taken: number;
 }

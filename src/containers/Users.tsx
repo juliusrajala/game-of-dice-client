@@ -2,6 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { Users } from 'src/App';
 import UserForm from 'src/components/UserForm';
+import Characters from './Characters';
 
 // Yeah. Let's be honest, we're not even trying to be secure here.
 // So if you read this. Don't use it as an inspiration for your
@@ -18,7 +19,12 @@ const UserPanel = () => {
       </UserContainer>
     );
   }
-  return <UserContainer>{userContext.user.user_name}</UserContainer>;
+  return (
+    <UserContainer>
+      {userContext.user.user_name}
+      <Characters />
+    </UserContainer>
+  );
 };
 
 export default UserPanel;
