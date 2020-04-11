@@ -1,4 +1,4 @@
-const apiBase = `http://${process.env.api_url}/api/v1`;
+const apiBase = `${window.location.protocol}//${process.env.api_url}/api/v1`;
 
 const statusHandler = (response: Response) => {
   return response.json().then((result) => {

@@ -9,7 +9,11 @@ export function useSocket() {
   React.useEffect(() => {
     console.log('Messages', message);
     if (!socketClient) {
-      const socket = io.connect(`ws://${process.env.api_url}`);
+      const socket = io.connect(
+        `${window.location.protocol === 'https:' ? 'wss' : 'ws'}://${
+          process.env.api_url
+        }`
+      );
 
       socket.on('connect', () => {
         console.log('Connected to server.');
