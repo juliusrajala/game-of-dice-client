@@ -186,7 +186,6 @@ const DiceContainer = styled.div`
   background: #3f3f3f;
   padding: 1rem;
   flex: 2;
-  height: 100%;
   border-radius: 5px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 `;

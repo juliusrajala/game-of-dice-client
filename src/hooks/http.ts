@@ -4,6 +4,7 @@ interface RequestState<T> {
   status: HttpRequestStatus;
   data: T | null;
   error: Error | null;
+  requestId?: string;
 }
 
 type RequestDataSource<T> = [RequestState<T>, () => void];
@@ -15,9 +16,13 @@ const initialState: RequestState<any> = {
 };
 
 export function useRequestedData<T>(
-  fetcher: Promise<T | void>
+  fetcher: Promise<T | void>,
+  requestId?: string
 ): RequestDataSource<T> {
-  const [state, setState] = React.useState<RequestState<T>>(initialState);
+  const [state, setState] = React.useState<RequestState<T>>({
+    ...initialState,
+    requestId,
+  });
 
   React.useEffect(() => {
     if (state.status === '') {
@@ -25,15 +30,15 @@ export function useRequestedData<T>(
       Promise.resolve(fetcher)
         .then((result: T) =>
           setState({
+            ...state,
             status: 'fulfilled',
             data: result,
-            error: null,
           })
         )
         .catch((err) =>
           setState({
+            ...state,
             status: 'rejected',
-            data: null,
             error: err,
           })
         );

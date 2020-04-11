@@ -10,6 +10,7 @@ import UserForm from 'src/components/UserForm';
 
 const UserPanel = () => {
   const userContext = React.useContext(Users);
+  console.log('User context', userContext);
   if (!userContext.user) {
     return (
       <UserContainer>

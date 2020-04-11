@@ -1,6 +1,7 @@
-const apiBase = 'http://localhost:3001/api/v1';
+const apiBase = `http://${process.env.api_url}/api/v1`;
 
 export const postRollEvent = (dice: Die[], description: string = '') => {
+  const userId = localStorage.getItem('godUserId');
   return fetch(`${apiBase}/create/roll`, {
     headers: {
       'Content-Type': 'application/json',
@@ -8,7 +9,7 @@ export const postRollEvent = (dice: Die[], description: string = '') => {
     method: 'POST',
     body: JSON.stringify({
       rolls: dice,
-      creator_id: 'Julius',
+      creator_id: userId,
       description: description,
     }),
   });

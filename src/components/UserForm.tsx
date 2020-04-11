@@ -15,6 +15,7 @@ const NewUserForm = () => {
 
   return (
     <UserForm>
+      <h3>Create a new user</h3>
       <Input
         label="Name"
         onChange={(ev) =>

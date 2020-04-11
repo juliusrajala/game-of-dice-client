@@ -17,7 +17,7 @@ function getEventType(event: DndEvent) {
 const EventTray = () => {
   const { message, connected } = useSocket();
   const [events, setEvents] = React.useState([]);
-  const [requestState] = useRequestedData<DndEvent[]>(getEvents());
+  const [requestState] = useRequestedData<DndEvent[]>(getEvents(), 'getEvents');
 
   React.useEffect(() => {
     if (requestState.status === 'fulfilled') {
@@ -35,9 +35,9 @@ const EventTray = () => {
     <EventContainer>
       <Title>Last events:</Title>
       <ConnectionIndicator cssProps={{ connected }} />
-      <div>
-        {events.map((item) => (
-          <Event key={item.event_id}>
+      <EventList>
+        {events.map((item, idx) => (
+          <Event cssProps={{ index: idx }} key={item.event_id}>
             <h3>
               {getEventType(item)} @ {format(parseInt(item.timestamp), 'HH.mm')}
             </h3>
@@ -54,12 +54,17 @@ const EventTray = () => {
             <span>By {item.creator_id}</span>
           </Event>
         ))}
-      </div>
+      </EventList>
     </EventContainer>
   );
 };
 
 export default EventTray;
+
+const EventList = styled.div`
+  overflow: auto;
+  flex: 1;
+`;
 
 const ConnectionIndicator = styled.span`
   content: '';
@@ -81,7 +86,7 @@ const EventContainer = styled.div`
   flex: 1;
   border-radius: 5px;
   margin-left: 1rem;
-  height: 100%;
+  height: auto;
   position: relative;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 `;
@@ -94,6 +99,12 @@ const Title = styled.h2`
 
 const Event = styled.div`
   padding: 0.5rem;
+  opacity: ${(props: JSX.IntrinsicAttributes) =>
+    1 - props.cssProps.index * 0.1};
+
+  &:hover {
+    opacity: 1;
+  }
 
   > h3 {
     font-weight: 600;

@@ -22,6 +22,7 @@ const Container = styled.label`
   display: flex;
   max-width: 300px;
   flex-direction: column;
+  margin: 0.5rem 0rem;
 `;
 
 // There's a better typing to this that I can't bet bothered to set together
@@ -35,6 +36,7 @@ const Input: any = styled.input`
 
 const Label = styled.span`
   font-weight: 600;
-  font-size: 1rem;
+  font-size: 0.8rem;
   margin-bottom: 0.25rem;
+  text-transform: uppercase;
 `;

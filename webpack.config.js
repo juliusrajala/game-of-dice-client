@@ -11,17 +11,21 @@ const config = {
   module: {
     rules: [
       { test: /\.tsx?$/, loader: 'ts-loader', exclude: /node_modules/ },
-      { loader: 'file-loader', test: [/\.jpe?g$/, /\.png$/], exclude: /node_modules/ },
-      { test: /\.js$/, use: ["source-map-loader"], enforce: "pre" }
-    ]
+      {
+        loader: 'file-loader',
+        test: [/\.jpe?g$/, /\.png$/],
+        exclude: /node_modules/,
+      },
+      { test: /\.js$/, use: ['source-map-loader'], enforce: 'pre' },
+    ],
   },
   resolve: {
     alias: {
-      'src': path.resolve(__dirname, './src/')
+      src: path.resolve(__dirname, './src/'),
     },
     extensions: ['.tsx', '.ts', '.js'],
   },
-  devtool: "source-map",
+  devtool: 'source-map',
   devServer: {
     contentBase: path.join(__dirname, 'dist'),
     hot: true,
@@ -29,7 +33,12 @@ const config = {
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
-  ]
+    new webpack.DefinePlugin({
+      'process.env': {
+        api_url: JSON.stringify(process.env.api_url),
+      },
+    }),
+  ],
 };
 
 module.exports = config;
