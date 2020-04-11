@@ -58,7 +58,16 @@ const App: React.SFC<any> = () => {
   }, [userId]);
 
   return (
-    <Users.Provider value={{ user, setUser, logOut: () => setUser(null) }}>
+    <Users.Provider
+      value={{
+        user,
+        setUser,
+        logOut: () => {
+          localStorage.removeItem('godUserId');
+          setUser(null);
+        },
+      }}
+    >
       <Page>
         <ContentWrapper>
           {!user ? (

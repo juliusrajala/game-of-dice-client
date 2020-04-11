@@ -100,6 +100,7 @@ const LoginModal = styled.div`
   margin-bottom: 1rem;
   border-radius: 5px;
   width: 300px;
+  max-height: 500px;
 
   > p {
     padding: 1rem 0rem;

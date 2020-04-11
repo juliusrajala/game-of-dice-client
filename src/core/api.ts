@@ -137,3 +137,19 @@ export const createCharacter = (data: Partial<Character>) => {
     .then(statusHandler)
     .catch(console.error);
 };
+
+export const setUserColor = (color: string) => {
+  const userId = localStorage.getItem('godUserId');
+  return fetch(`${apiBase}/user/color`, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    method: 'POST',
+    body: JSON.stringify({
+      color,
+      user_id: userId,
+    }),
+  })
+    .then(statusHandler)
+    .catch(console.error);
+};

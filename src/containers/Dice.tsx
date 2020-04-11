@@ -70,7 +70,7 @@ const DiceControl = () => {
         />
       </OnlineControl>
       <DieTable>
-        <ToolLabel>My dice tray</ToolLabel>
+        <ToolLabel>Dice tray</ToolLabel>
       </DieTable>
       <div>
         <DieTable>

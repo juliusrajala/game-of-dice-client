@@ -64,6 +64,6 @@ const CharacterList = styled.div`
   padding: 1rem;
 
   > * {
-    margin-right: 1rem;
+    margin-right: 2rem;
   }
 `;

@@ -27,7 +27,7 @@ const EventTray = () => {
 
   React.useEffect(() => {
     if (message) {
-      setEvents([...events, message]);
+      setEvents([message, ...events]);
     }
   }, [message]);
 
@@ -37,12 +37,15 @@ const EventTray = () => {
       <ConnectionIndicator cssProps={{ connected }} />
       <EventList>
         {events.map((item, idx) => (
-          <Event cssProps={{ index: idx }} key={item.event_id}>
+          <Event
+            cssProps={{ index: idx, accent: item.accent_color }}
+            key={item.event_id}
+          >
             <h3>
               {getEventType(item)} @ {format(parseInt(item.timestamp), 'HH.mm')}
             </h3>
             {item.rolls.length > 0 && (
-              <EventDice>
+              <EventDice cssProps={{ index: idx, accent: item.accent_color }}>
                 {item.rolls.map((roll) => (
                   <Die key={roll.id}>
                     <span>{roll.type}</span>
@@ -51,7 +54,7 @@ const EventTray = () => {
                 ))}
               </EventDice>
             )}
-            <span>By {item.creator_id}</span>
+            <span>By {item.player_name}</span>
           </Event>
         ))}
       </EventList>
@@ -126,6 +129,10 @@ const EventDice = styled.span`
   font-size: 1.2rem;
   display: flex;
   flex-direction: row;
+  > * {
+    background: ${(props: JSX.IntrinsicAttributes) =>
+      props.cssProps.accent || 'transparent'};
+  }
 `;
 
 const Die = styled.div`
