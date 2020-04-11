@@ -23,7 +23,7 @@ const Characters = () => {
     return (
       <CharacterContainer>
         <Topic>New character</Topic>
-        <CharacterForm />
+        <CharacterForm toggleForm={() => toggleForm(!displayForm)} />
       </CharacterContainer>
     );
   }

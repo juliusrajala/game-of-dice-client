@@ -13,27 +13,6 @@ const ReactApp = () => {
   return ReactDOM.render(<App />, document.getElementById('react-root'));
 };
 
-const Page = styled.main`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  min-height: 100vh;
-  background-color: #214761;
-
-  * {
-    font-family: 'Source Sans Pro', Helvetica, Arial;
-  }
-`;
-
-const MainPanel = styled.section`
-  flex: 2;
-  display: flex;
-  flex-direction: column;
-  height: auto;
-`;
-
 interface UserContext {
   user: User | null;
   setUser?: (user: User) => void;
@@ -70,6 +49,7 @@ const App: React.SFC<any> = () => {
     >
       <Page>
         <ContentWrapper>
+          <Title>noppa.io</Title>
           {!user ? (
             <NewUserForm />
           ) : (
@@ -96,6 +76,37 @@ const ContentWrapper = styled.div`
   padding: 5rem;
   max-height: 1000px;
   flex-direction: row;
+  position: relative;
+`;
+
+const Page = styled.main`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  min-height: 100vh;
+  background-color: #214761;
+
+  * {
+    font-family: 'Source Sans Pro', Helvetica, Arial;
+  }
+`;
+
+const MainPanel = styled.section`
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  height: auto;
+`;
+
+const Title = styled.h1`
+  font-family: Londrina Outline, Sans Serif;
+  font-size: 2.5rem;
+  color: #fff;
+  position: absolute;
+  left: 5rem;
+  top: 1.5rem;
 `;
 
 ReactApp();

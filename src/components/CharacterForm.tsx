@@ -1,12 +1,20 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { FiZap, FiHeart, FiShield, FiUser, FiFilePlus } from 'react-icons/fi';
+import {
+  FiZap,
+  FiHeart,
+  FiShield,
+  FiUser,
+  FiFilePlus,
+  FiX,
+} from 'react-icons/fi';
 import Input from 'src/components/Input';
 import Button from 'src/components/Button';
 import { createCharacter } from 'src/core/api';
 
 interface Props {
   character?: Character;
+  toggleForm: () => void;
 }
 
 const CharacterForm = (props: Props) => {
@@ -19,7 +27,7 @@ const CharacterForm = (props: Props) => {
     ev.stopPropagation();
     if (formData.character_name) {
       console.log('Creating characte', JSON.stringify(formData));
-      createCharacter(formData);
+      createCharacter(formData).then(props.toggleForm);
     }
   };
 
@@ -74,14 +82,24 @@ const CharacterForm = (props: Props) => {
           setValue({ ...formData, attack_bonus: parseInt(ev.target.value) })
         }
       />
-      <Button
-        onClick={submitData}
-        label={
-          <>
-            <FiFilePlus /> Create character
-          </>
-        }
-      />
+      <FormActions>
+        <Button
+          onClick={props.toggleForm}
+          label={
+            <>
+              <FiX /> Cancel
+            </>
+          }
+        />
+        <Button
+          onClick={submitData}
+          label={
+            <>
+              <FiFilePlus /> Create character
+            </>
+          }
+        />
+      </FormActions>
     </Form>
   );
 };
@@ -89,3 +107,11 @@ const CharacterForm = (props: Props) => {
 export default CharacterForm;
 
 const Form = styled.form``;
+
+const FormActions = styled.div`
+  display: flex;
+  flex-direction: row;
+
+  > button {
+  }
+`;
