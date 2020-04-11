@@ -1,18 +1,24 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { FiUser, FiHeart, FiShield, FiZap } from 'react-icons/fi';
+import { useStoredUser } from 'src/hooks/storage';
 
 interface Props {
   character: Character;
 }
 
 const Character = (props: Props) => {
+  const userId = useStoredUser();
   const [selected, setSelected] = React.useState(false);
   const { character } = props;
   return (
     <CharacterItem
       onClick={() => setSelected(!selected)}
-      cssProps={{ accent: props.character.accent_color, selected }}
+      cssProps={{
+        accent: props.character.accent_color,
+        selected,
+        owned: character.owner_id === userId,
+      }}
     >
       <FiUser />
       <h3>{props.character.character_name}</h3>
@@ -51,6 +57,8 @@ const CardOverlay = styled.div`
     props.cssProps.selected ? 'auto' : 'none'};
   z-index: 3;
   top: -10px;
+  width: 200px;
+  border-radius: 4px;
   right: -150px;
   background: #3f3f3f;
   > span {
@@ -81,6 +89,11 @@ const CharacterItem = styled.div`
     props.cssProps.accent || '#0fbcf9'};
   cursor: pointer;
   background: #3f3f3f;
+  border: 3px solid
+    ${(props: JSX.IntrinsicAttributes) =>
+      props.cssProps.owned ? props.cssProps.accent : 'transparent'};
+  box-shadow: 0 14px 28px rgba(255, 255, 255, 0.87),
+    0 10px 10px rgba(255, 255, 255, 0.82);
   transition: box-shadow ease-in-out 0.2s;
   > svg {
     font-size: 40px;
@@ -101,6 +114,8 @@ const CharacterItem = styled.div`
     overflow: hidden;
     text-overflow: ellipsis;
     max-width: 100px;
+    color: ${(props: JSX.IntrinsicAttributes) =>
+      props.cssProps.owned ? props.cssProps.accent : '#fff'};
   }
   &:hover,
   &:focus {

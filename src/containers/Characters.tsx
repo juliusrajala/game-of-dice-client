@@ -6,10 +6,16 @@ import { FiFilePlus } from 'react-icons/fi';
 import CharacterForm from 'src/components/CharacterForm';
 import { useRequestedData } from 'src/hooks/http';
 import { getCharacters } from 'src/core/api';
+import { useStoredUser } from 'src/hooks/storage';
 
 const Characters = () => {
+  const userId = useStoredUser();
   const [displayForm, toggleForm] = React.useState(false);
   const [characters, setCharacters] = React.useState<Character[]>([]);
+  const hasCharacter = characters.reduce(
+    (curr, next) => curr || next.owner_id === userId,
+    false
+  );
 
   const [characterRequest] = useRequestedData<Character[]>(getCharacters());
 
@@ -35,14 +41,16 @@ const Characters = () => {
           <Character character={character} />
         ))}
       </CharacterList>
-      <Button
-        onClick={() => toggleForm(true)}
-        label={
-          <>
-            <FiFilePlus /> New character
-          </>
-        }
-      />
+      {!hasCharacter && (
+        <Button
+          onClick={() => toggleForm(true)}
+          label={
+            <>
+              <FiFilePlus /> New character
+            </>
+          }
+        />
+      )}
     </CharacterContainer>
   );
 };

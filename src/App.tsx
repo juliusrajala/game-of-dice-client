@@ -77,6 +77,7 @@ const ContentWrapper = styled.div`
   max-height: 1000px;
   flex-direction: row;
   position: relative;
+  align-items: center;
 `;
 
 const Page = styled.main`
@@ -98,6 +99,7 @@ const MainPanel = styled.section`
   display: flex;
   flex-direction: column;
   height: auto;
+  align-self: flex-start;
 `;
 
 const Title = styled.h1`
