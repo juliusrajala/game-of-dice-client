@@ -9,22 +9,19 @@ interface Props {
 
 const Character = (props: Props) => {
   const userId = useStoredUser();
-  const [selected, setSelected] = React.useState(false);
   const { character } = props;
   return (
-    <CharacterItem
-      onClick={() => setSelected(!selected)}
-      cssProps={{
-        accent: props.character.accent_color,
-        selected,
-        owned: character.owner_id === userId,
-      }}
-    >
-      <FiUser />
-      <h3>{props.character.character_name}</h3>
-      <CardOverlay
-        cssProps={{ accent: props.character.accent_color, selected }}
+    <CharacterContainer>
+      <CharacterItem
+        cssProps={{
+          accent: props.character.accent_color,
+          owned: character.owner_id === userId,
+        }}
       >
+        <FiUser />
+        <h3>{props.character.character_name}</h3>
+      </CharacterItem>
+      <CardOverlay cssProps={{ accent: props.character.accent_color }}>
         <span>
           <FiUser />
           {character.character_name}
@@ -42,33 +39,39 @@ const Character = (props: Props) => {
           <FiZap />+ {character.attack_bonus}
         </span>
       </CardOverlay>
-    </CharacterItem>
+    </CharacterContainer>
   );
 };
 
 export default Character;
 
-const CardOverlay = styled.div`
+const CharacterContainer = styled.div`
+  display: flex;
+  flex-direction: row;
   padding: 1rem;
-  position: absolute;
-  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
-  color: ${(props: JSX.IntrinsicAttributes) => props.cssProps.accent || '#fff'};
-  display: ${(props: JSX.IntrinsicAttributes) =>
-    props.cssProps.selected ? 'auto' : 'none'};
-  z-index: 3;
-  top: -10px;
-  width: 200px;
-  border-radius: 4px;
-  right: -150px;
-  background: #3f3f3f;
+  align-items: center;
+  width: 300px;
+`;
+
+const CardOverlay = styled.div`
+  margin-left: 1rem;
   > span {
     display: flex;
     flex-direction: row;
-    padding: 0.5rem 0rem;
+    align-items: center;
+    margin: 0.25rem;
+    width: auto;
+    color: #3f3f3f;
+    font-weight: 600;
 
     > svg {
+      color: ${(props: JSX.IntrinsicAttributes) =>
+        props.cssProps.accent || '#fff'};
+      background: #3f3f3f;
+      padding: 0.125rem 0.25rem;
+      border-radius: 4px;
       margin-right: 0.5rem;
-      font-size: 20px;
+      font-size: 22px;
       font-weight: 600;
     }
   }
@@ -84,7 +87,7 @@ const CharacterItem = styled.div`
   justify-content: center;
   font-size: 1.2rem;
   font-weight: 600;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
   color: ${(props: JSX.IntrinsicAttributes) =>
     props.cssProps.accent || '#0fbcf9'};
   cursor: pointer;
@@ -92,9 +95,6 @@ const CharacterItem = styled.div`
   border: 3px solid
     ${(props: JSX.IntrinsicAttributes) =>
       props.cssProps.owned ? props.cssProps.accent : 'transparent'};
-  box-shadow: 0 14px 28px rgba(255, 255, 255, 0.87),
-    0 10px 10px rgba(255, 255, 255, 0.82);
-  transition: box-shadow ease-in-out 0.2s;
   > svg {
     font-size: 40px;
   }
@@ -114,16 +114,8 @@ const CharacterItem = styled.div`
     overflow: hidden;
     text-overflow: ellipsis;
     max-width: 100px;
+    font-size: 1rem;
     color: ${(props: JSX.IntrinsicAttributes) =>
       props.cssProps.owned ? props.cssProps.accent : '#fff'};
-  }
-  &:hover,
-  &:focus {
-    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
-
-    > h3 {
-      box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25),
-        0 10px 10px rgba(0, 0, 0, 0.22);
-    }
   }
 `;

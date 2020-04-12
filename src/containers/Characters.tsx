@@ -57,9 +57,7 @@ const Characters = () => {
 
 export default Characters;
 
-const CharacterContainer = styled.div`
-  padding: 1rem 0rem;
-`;
+const CharacterContainer = styled.div``;
 
 const Topic = styled.h2`
   font-size: 1.5rem;
@@ -69,9 +67,6 @@ const Topic = styled.h2`
 const CharacterList = styled.div`
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   padding: 1rem;
-
-  > * {
-    margin-right: 2rem;
-  }
 `;
