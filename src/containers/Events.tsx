@@ -44,7 +44,7 @@ const EventTray = () => {
             <h3>
               {getEventType(item)} @ {format(parseInt(item.timestamp), 'HH.mm')}
             </h3>
-            {item.rolls.length > 0 && (
+            {item.rolls && item.rolls.length > 0 && (
               <EventDice cssProps={{ index: idx, accent: item.accent_color }}>
                 {item.rolls.map((roll) => (
                   <Die key={roll.id}>

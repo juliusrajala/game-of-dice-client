@@ -68,6 +68,9 @@ declare interface Character {
   attack_bonus: number;
   damage_taken: number;
   owner_id: string;
+  reflex: number;
+  will: number;
+  fortitude: number;
   player_name?: string;
   accent_color?: string;
 }

@@ -20,10 +20,6 @@ interface UserContext {
   logOut?: () => void;
 }
 
-interface SocketContext {
-  messages: DiceEvent[];
-}
-
 export const Users = React.createContext<UserContext>({
   user: null,
 });

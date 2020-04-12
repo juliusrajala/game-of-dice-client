@@ -7,8 +7,10 @@ import {
   FiZap,
   FiMinus,
   FiPlusCircle,
+  FiEye,
+  FiFeather,
+  FiActivity,
 } from 'react-icons/fi';
-import { useStoredUser } from 'src/hooks/storage';
 import { Users } from 'src/App';
 
 interface Props {
@@ -64,6 +66,29 @@ const Character = (props: Props) => {
           +{character.attack_bonus}
         </span>
       </CardOverlay>
+      <CardOverlay cssProps={{ accent: props.character.accent_color }}>
+        <span>
+          <Label cssProps={{ accent: props.character.accent_color }}>
+            <FiActivity />
+            Fo
+          </Label>
+          {character.fortitude}
+        </span>
+        <span>
+          <Label cssProps={{ accent: props.character.accent_color }}>
+            <FiFeather />
+            Re
+          </Label>
+          {character.reflex}
+        </span>
+        <span>
+          <Label cssProps={{ accent: props.character.accent_color }}>
+            <FiEye />
+            Wi
+          </Label>
+          {character.will}
+        </span>
+      </CardOverlay>
     </CharacterContainer>
   );
 };
@@ -75,7 +100,7 @@ const CharacterContainer = styled.div`
   flex-direction: row;
   padding: 1.5rem;
   align-items: center;
-  width: 250px;
+  width: 300px;
 `;
 
 const Label = styled.span`
@@ -89,7 +114,7 @@ const Label = styled.span`
   flex-direction: row;
   align-items: center;
   text-transform: uppercase;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
 
   > svg {
     margin-right: 0.25rem;
@@ -111,8 +136,8 @@ const CardOverlay = styled.div`
 
 const CharacterItem = styled.div`
   position: relative;
-  width: 80px;
-  height: 80px;
+  min-width: 80px;
+  min-height: 80px;
   border-radius: 50%;
   display: flex;
   align-items: center;

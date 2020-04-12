@@ -35,7 +35,7 @@ const Characters = () => {
   }
   return (
     <CharacterContainer>
-      <Topic>Characters in game</Topic>
+      <Topic>Player characters</Topic>
       <CharacterList>
         {characters.map((character) => (
           <Character character={character} />
@@ -68,5 +68,4 @@ const CharacterList = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  padding: 1rem;
 `;

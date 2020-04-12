@@ -107,8 +107,7 @@ export const getUser = (id) => {
         localStorage.setItem('godUserId', result.user_id);
       }
       return result;
-    })
-    .catch((err) => new Error(err));
+    });
 };
 
 export const getCharacters = () => {
@@ -117,9 +116,7 @@ export const getCharacters = () => {
       'Content-Type': 'application/json',
     },
     method: 'GET',
-  })
-    .then(statusHandler)
-    .catch(console.error);
+  }).then(statusHandler);
 };
 
 export const createCharacter = (data: Partial<Character>) => {
@@ -133,9 +130,7 @@ export const createCharacter = (data: Partial<Character>) => {
       ...data,
       owner_id: userId,
     }),
-  })
-    .then(statusHandler)
-    .catch(console.error);
+  }).then(statusHandler);
 };
 
 export const setUserColor = (color: string) => {
@@ -149,7 +144,5 @@ export const setUserColor = (color: string) => {
       color,
       user_id: userId,
     }),
-  })
-    .then(statusHandler)
-    .catch(console.error);
+  }).then(statusHandler);
 };

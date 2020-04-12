@@ -2,6 +2,26 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { FiTrash } from 'react-icons/fi';
 
+interface Props {
+  deleteFn: (id: string) => void;
+  clickFn: (id: string) => void;
+  dieItem: Die;
+}
+
+const TrayDie = (props: Props) => {
+  return (
+    <StyledDie key={props.dieItem.id}>
+      <span>{props.dieItem.type}</span>
+      <DeleteButton onClick={() => props.deleteFn(props.dieItem.id)}>
+        <FiTrash color="#fff" />
+      </DeleteButton>
+      <span>{props.dieItem.value || ''}</span>
+    </StyledDie>
+  );
+};
+
+export default TrayDie;
+
 export const StyledDie = styled.div`
   width: 100px;
   height: 100px;
@@ -73,23 +93,3 @@ const DeleteButton = styled.button`
     box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
   }
 `;
-
-interface Props {
-  deleteFn: (id: string) => void;
-  clickFn: (id: string) => void;
-  dieItem: Die;
-}
-
-const TrayDie = (props: Props) => {
-  return (
-    <StyledDie key={props.dieItem.id}>
-      <span>{props.dieItem.type}</span>
-      <DeleteButton onClick={() => props.deleteFn(props.dieItem.id)}>
-        <FiTrash color="#fff" />
-      </DeleteButton>
-      <span>{props.dieItem.value || ''}</span>
-    </StyledDie>
-  );
-};
-
-export default TrayDie;
