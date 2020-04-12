@@ -57,14 +57,14 @@ const App: React.SFC<any> = () => {
       <Page>
         <ContentWrapper>
           <Title>noppa.io</Title>
-          <Logout onClick={logOut}>
-            <FiLock />
-            Log out
-          </Logout>
           {!user ? (
             <NewUserForm />
           ) : (
             <>
+              <Logout onClick={logOut}>
+                <FiLock />
+                Log out
+              </Logout>
               <MainPanel>
                 <UserPanel />
                 <DiceControl />
