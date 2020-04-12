@@ -1,3 +1,5 @@
+![Deploy Live](https://github.com/juliusrajala/game-of-dice-client/workflows/Deploy%20Live/badge.svg?branch=master)
+
 # React Typescript Template
 
 This is a somewhat opinionated starter kit for a React Application using Typescript.

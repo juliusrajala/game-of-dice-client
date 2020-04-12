@@ -4,11 +4,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const config = {
   entry: './src/App.tsx',
-  output: {
-    path: path.resolve(__dirname, 'dist'),
-    filename: '[name].[hash].js',
-    publicPath: '/',
-  },
   module: {
     rules: [
       { test: /\.tsx?$/, loader: 'ts-loader', exclude: /node_modules/ },
@@ -27,13 +22,7 @@ const config = {
     extensions: ['.tsx', '.ts', '.js'],
   },
   devtool: 'source-map',
-  devServer: {
-    contentBase: path.join(__dirname, 'dist'),
-    hot: true,
-    historyApiFallback: true,
-  },
   plugins: [
-    new webpack.HotModuleReplacementPlugin(),
     new webpack.DefinePlugin({
       'process.env': {
         api_url: JSON.stringify(process.env.api_url),

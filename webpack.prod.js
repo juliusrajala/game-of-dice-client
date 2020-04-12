@@ -1,16 +1,17 @@
 const merge = require('webpack-merge');
 const common = require('./webpack.config.js');
-const TerserPlugin = require('terser-webpack-plugin');
 const webpack = require('webpack');
+const path = require('path');
+const CompressionPlugin = require('compression-webpack-plugin');
 
 module.exports = merge(common, {
   mode: 'production',
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    filename: '[name].[contenthash].js',
+  },
   optimization: {
-    minimizer: [
-      new TerserPlugin({
-        /* additional options here */
-      }),
-    ],
+    runtimeChunk: 'single',
   },
   plugins: [
     new webpack.DefinePlugin({
@@ -19,5 +20,6 @@ module.exports = merge(common, {
         NODE_ENV: JSON.stringify('production'),
       },
     }),
+    new CompressionPlugin(),
   ],
 });
