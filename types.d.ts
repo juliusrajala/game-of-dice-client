@@ -23,7 +23,7 @@ declare type DieType =
   | 'd20'
   | 'd100';
 
-declare type EventType = 'dice_event' | 'hp_event' | '';
+declare type EventType = 'dice_event' | 'hp_event' | 'dm_event';
 
 declare interface Die {
   id: string;
@@ -36,6 +36,7 @@ declare interface User {
   user_name: string;
   user_id: string;
   color: string;
+  is_admin: boolean;
 }
 
 declare interface DndEvent {
