@@ -15,6 +15,7 @@ const defaultDice: DieType[] = [
   'd8',
   'd10',
   'd12',
+  'd20',
   'd100',
 ];
 
