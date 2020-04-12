@@ -23,6 +23,7 @@ interface InputProps {
   children: any;
   valueKey: string;
   character: Character;
+  isPlayerCharacter: boolean;
 }
 
 const InputPrompt = (props: InputProps) => {
@@ -32,6 +33,9 @@ const InputPrompt = (props: InputProps) => {
   const [displayInput, toggleDisplay] = React.useState(false);
 
   const submitNewValue = (ev) => {
+    if (!props.isPlayerCharacter) {
+      return;
+    }
     ev.preventDefault();
     ev.stopPropagation();
     return setCharacterAttribute(
@@ -53,7 +57,11 @@ const InputPrompt = (props: InputProps) => {
           <Button onClick={submitNewValue} label="Save value" />
         </InputHolder>
       )}
-      <span onClick={() => toggleDisplay(!displayInput)}>{props.children}</span>
+      <span
+        onClick={() => props.isPlayerCharacter && toggleDisplay(!displayInput)}
+      >
+        {props.children}
+      </span>
     </Label>
   );
 };
@@ -62,12 +70,14 @@ const Character = (props: Props) => {
   const userContext = React.useContext(Users);
   const { user } = userContext;
   const { character } = props;
+
+  const isPlayerCharacter = character.owner_id === user.user_id;
   return (
     <CharacterContainer>
       <CharacterItem
         cssProps={{
-          accent: props.character.accent_color,
-          owned: character.owner_id === user.user_id,
+          accent: character.accent_color,
+          owned: isPlayerCharacter,
         }}
       >
         {user.is_admin && (
@@ -81,11 +91,15 @@ const Character = (props: Props) => {
           </>
         )}
         <FiUser />
-        <h3>{props.character.character_name}</h3>
+        <h3>{character.character_name}</h3>
       </CharacterItem>
       <CardOverlay cssProps={{ accent: props.character.accent_color }}>
         <span>
-          <InputPrompt character={character} valueKey="hit_points">
+          <InputPrompt
+            character={character}
+            isPlayerCharacter={isPlayerCharacter}
+            valueKey="hit_points"
+          >
             <FiHeart />
             hp
           </InputPrompt>
@@ -93,14 +107,22 @@ const Character = (props: Props) => {
           {character.hit_points}
         </span>
         <span>
-          <InputPrompt character={character} valueKey="armor_class">
+          <InputPrompt
+            character={character}
+            isPlayerCharacter={isPlayerCharacter}
+            valueKey="armor_class"
+          >
             <FiShield />
             ac
           </InputPrompt>
           {character.armor_class}
         </span>
         <span>
-          <InputPrompt character={character} valueKey="attack_bonus">
+          <InputPrompt
+            character={character}
+            isPlayerCharacter={isPlayerCharacter}
+            valueKey="attack_bonus"
+          >
             <FiZap />
             ab
           </InputPrompt>
@@ -109,21 +131,33 @@ const Character = (props: Props) => {
       </CardOverlay>
       <CardOverlay cssProps={{ accent: props.character.accent_color }}>
         <span>
-          <InputPrompt character={character} valueKey="fortitude">
+          <InputPrompt
+            character={character}
+            isPlayerCharacter={isPlayerCharacter}
+            valueKey="fortitude"
+          >
             <FiActivity />
             Fo
           </InputPrompt>
           {character.fortitude}
         </span>
         <span>
-          <InputPrompt character={character} valueKey="reflex">
+          <InputPrompt
+            character={character}
+            isPlayerCharacter={isPlayerCharacter}
+            valueKey="reflex"
+          >
             <FiFeather />
             Re
           </InputPrompt>
           {character.reflex}
         </span>
         <span>
-          <InputPrompt character={character} valueKey="will">
+          <InputPrompt
+            character={character}
+            isPlayerCharacter={isPlayerCharacter}
+            valueKey="will"
+          >
             <FiEye />
             Wi
           </InputPrompt>
