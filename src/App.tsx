@@ -8,6 +8,7 @@ import UserPanel from 'src/containers/Users';
 import { useStoredUser } from 'src/hooks/storage';
 import { getUser } from 'src/core/api';
 import NewUserForm from './components/UserForm';
+import { FiLock } from 'react-icons/fi';
 
 const ReactApp = () => {
   return ReactDOM.render(<App />, document.getElementById('react-root'));
@@ -40,20 +41,26 @@ const App: React.SFC<any> = () => {
     }
   }, [userId]);
 
+  const logOut = () => {
+    localStorage.removeItem('godUserId');
+    setUser(null);
+  };
+
   return (
     <Users.Provider
       value={{
         user,
         setUser,
-        logOut: () => {
-          localStorage.removeItem('godUserId');
-          setUser(null);
-        },
+        logOut,
       }}
     >
       <Page>
         <ContentWrapper>
           <Title>noppa.io</Title>
+          <Logout onClick={logOut}>
+            <FiLock />
+            Log out
+          </Logout>
           {!user ? (
             <NewUserForm />
           ) : (
@@ -116,6 +123,28 @@ const Title = styled.h1`
   position: absolute;
   left: 5rem;
   top: 1.5rem;
+`;
+
+const Logout = styled.button`
+  font-size: 1rem;
+  color: #fff;
+  position: absolute;
+  right: 5rem;
+  top: 3rem;
+  background: transparent;
+  border: none;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  cursor: pointer;
+
+  > svg {
+    margin-right: 0.5rem;
+  }
+
+  &:hover {
+    color: #bb3f3f;
+  }
 `;
 
 ReactApp();

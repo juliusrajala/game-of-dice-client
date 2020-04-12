@@ -12,13 +12,9 @@ import { FiLock, FiSettings } from 'react-icons/fi';
 
 const UserPanel = () => {
   const [settingsOpen, toggleSettings] = React.useState(false);
-  const userContext = React.useContext(Users);
   return (
     <UserContainer>
       <UserButtons>
-        <UserButton onClick={() => userContext.logOut()}>
-          <FiLock />
-        </UserButton>
         <UserButton onClick={() => toggleSettings(!settingsOpen)}>
           <FiSettings />
         </UserButton>
