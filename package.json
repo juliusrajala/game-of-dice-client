@@ -9,7 +9,7 @@
   "scripts": {
     "start": "npm run build-static && webpack-dev-server --mode development",
     "clean": "rm -rf dist",
-    "build-static": "shx mkdir -p dist/ && cp -r public/* dist/",
+    "build-static": "shx rm -rf dist/ && shx mkdir -p dist/ && cp -r public/* dist/",
     "serve": "npm run build && http-server ./dist -p 8000",
     "build": "npm run build-static && webpack --config webpack.prod.js --optimize-minimize",
     "prettify": "prettier --write src/"
@@ -27,6 +27,7 @@
     "@types/socket.io-client": "~1.4.32",
     "@types/styled-components": "~5.0.1",
     "file-loader": "1.1.11",
+    "html-webpack-plugin": "~4.2.0",
     "http-server": "~0.12.1",
     "prettier": "~2.0.2",
     "redux-devtools-extension": "^2.13.8",

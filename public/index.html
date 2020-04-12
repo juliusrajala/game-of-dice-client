@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>TypeScript & React</title>
+    <title>Noppa.io</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="description" content="App description" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -33,6 +33,7 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" type="text/css" href="reset.css" />
+    <%= htmlWebpackPlugin.tags.headTags %>
   </head>
   <body>
     <div id="react-root"></div>
@@ -49,6 +50,6 @@
         that requires Javascript to run.
       </p>
     </noscript>
-    <script src="bundle.js"></script>
+    <%= htmlWebpackPlugin.tags.bodyTags %>
   </body>
 </html>

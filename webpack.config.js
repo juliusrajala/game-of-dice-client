@@ -1,11 +1,12 @@
 const path = require('path');
 const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const config = {
   entry: './src/App.tsx',
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'bundle.js',
+    filename: '[name].[hash].js',
     publicPath: '/',
   },
   module: {
@@ -37,6 +38,10 @@ const config = {
       'process.env': {
         api_url: JSON.stringify(process.env.api_url),
       },
+    }),
+    new HtmlWebpackPlugin({
+      title: 'Noppa',
+      template: 'public/index.html',
     }),
   ],
 };
