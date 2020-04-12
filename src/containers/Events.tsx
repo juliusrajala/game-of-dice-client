@@ -67,6 +67,7 @@ export default EventTray;
 const EventList = styled.div`
   overflow: auto;
   flex: 1;
+  max-height: 600;
 `;
 
 const ConnectionIndicator = styled.span`
@@ -83,7 +84,7 @@ const ConnectionIndicator = styled.span`
   z-index: 2;
 `;
 
-const EventContainer = styled.div`
+const EventContainer = styled.section`
   padding: 1rem;
   background: rgba(255, 255, 255, 0.9);
   flex: 1;
@@ -92,6 +93,7 @@ const EventContainer = styled.div`
   height: auto;
   position: relative;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  overflow: auto;
 `;
 
 const Title = styled.h2`

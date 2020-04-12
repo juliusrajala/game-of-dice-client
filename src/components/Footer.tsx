@@ -9,7 +9,6 @@ const FooterBar = styled.div`
   font-family: Source Sans Pro, sans-serif;
   font-weight: 600;
   text-transform: uppercase;
-  background: #bb3f3f;
   color: #fff;
   width: 100%;
   text-align: center;
@@ -20,6 +19,6 @@ const FooterBar = styled.div`
     }
   }
 `;
-const Footer = () => <FooterBar>Julius Rajala, 2020</FooterBar>;
+const Footer = () => <FooterBar>Noppa.io, 2020</FooterBar>;
 
 export default Footer;

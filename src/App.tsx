@@ -19,6 +19,10 @@ interface UserContext {
   logOut?: () => void;
 }
 
+interface SocketContext {
+  messages: DiceEvent[];
+}
+
 export const Users = React.createContext<UserContext>({
   user: null,
 });
@@ -74,10 +78,9 @@ const ContentWrapper = styled.div`
   display: flex;
   width: 100%;
   padding: 5rem;
-  max-height: 1000px;
   flex-direction: row;
   position: relative;
-  align-items: center;
+  align-items: flex-start;
 `;
 
 const Page = styled.main`
@@ -87,8 +90,12 @@ const Page = styled.main`
   align-items: center;
   width: 100%;
   min-height: 100vh;
-  background-color: #214761;
-
+  background: rgb(33, 71, 97);
+  background: linear-gradient(
+    170deg,
+    rgba(33, 71, 97, 1) 24%,
+    rgba(187, 63, 63, 1) 94%
+  );
   * {
     font-family: 'Source Sans Pro', Helvetica, Arial;
   }
