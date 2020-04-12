@@ -22,7 +22,6 @@ const Characters = () => {
   React.useEffect(() => {
     const { message } = socketContext;
     if (message && message.event_type === 'character_event') {
-      console.log('New message with character', message.data);
       const targetCharacter = message.data;
       const newCharacters = characters
         .filter((char) => char.character_id !== targetCharacter.character_id)
