@@ -5,21 +5,62 @@ import {
   FiHeart,
   FiShield,
   FiZap,
-  FiMinus,
   FiPlusCircle,
   FiEye,
   FiFeather,
   FiActivity,
 } from 'react-icons/fi';
 import { Users } from 'src/App';
+import Input from './Input';
+import Button from './Button';
+import { setCharacterAttribute } from 'src/core/api';
 
 interface Props {
   character: Character;
 }
 
+interface InputProps {
+  children: any;
+  valueKey: string;
+  character: Character;
+}
+
+const InputPrompt = (props: InputProps) => {
+  const [inputValue, setValue] = React.useState(
+    props.character[props.valueKey]
+  );
+  const [displayInput, toggleDisplay] = React.useState(false);
+
+  const submitNewValue = (ev) => {
+    ev.preventDefault();
+    ev.stopPropagation();
+    return setCharacterAttribute(
+      props.valueKey,
+      inputValue,
+      props.character.character_id
+    ).then(() => toggleDisplay(false));
+  };
+
+  return (
+    <Label cssProps={{ accent: props.character.accent_color }}>
+      {displayInput && (
+        <InputHolder>
+          <Input
+            label={props.children}
+            inputProps={{ defaultValue: inputValue, autoFocus: true }}
+            onChange={(ev) => setValue(parseInt(ev.target.value))}
+          />
+          <Button onClick={submitNewValue} label="Save value" />
+        </InputHolder>
+      )}
+      <span onClick={() => toggleDisplay(!displayInput)}>{props.children}</span>
+    </Label>
+  );
+};
+
 const Character = (props: Props) => {
-  const userContect = React.useContext(Users);
-  const { user } = userContect;
+  const userContext = React.useContext(Users);
+  const { user } = userContext;
   const { character } = props;
   return (
     <CharacterContainer>
@@ -44,48 +85,48 @@ const Character = (props: Props) => {
       </CharacterItem>
       <CardOverlay cssProps={{ accent: props.character.accent_color }}>
         <span>
-          <Label cssProps={{ accent: props.character.accent_color }}>
+          <InputPrompt character={character} valueKey="hit_points">
             <FiHeart />
             hp
-          </Label>
+          </InputPrompt>
           {character.hit_points - (character.damage_taken || 0)}/
           {character.hit_points}
         </span>
         <span>
-          <Label cssProps={{ accent: props.character.accent_color }}>
+          <InputPrompt character={character} valueKey="armor_class">
             <FiShield />
             ac
-          </Label>
+          </InputPrompt>
           {character.armor_class}
         </span>
         <span>
-          <Label cssProps={{ accent: props.character.accent_color }}>
+          <InputPrompt character={character} valueKey="attack_bonus">
             <FiZap />
             ab
-          </Label>
+          </InputPrompt>
           +{character.attack_bonus}
         </span>
       </CardOverlay>
       <CardOverlay cssProps={{ accent: props.character.accent_color }}>
         <span>
-          <Label cssProps={{ accent: props.character.accent_color }}>
+          <InputPrompt character={character} valueKey="fortitude">
             <FiActivity />
             Fo
-          </Label>
+          </InputPrompt>
           {character.fortitude}
         </span>
         <span>
-          <Label cssProps={{ accent: props.character.accent_color }}>
+          <InputPrompt character={character} valueKey="reflex">
             <FiFeather />
             Re
-          </Label>
+          </InputPrompt>
           {character.reflex}
         </span>
         <span>
-          <Label cssProps={{ accent: props.character.accent_color }}>
+          <InputPrompt character={character} valueKey="will">
             <FiEye />
             Wi
-          </Label>
+          </InputPrompt>
           {character.will}
         </span>
       </CardOverlay>
@@ -98,7 +139,7 @@ export default Character;
 const CharacterContainer = styled.div`
   display: flex;
   flex-direction: row;
-  padding: 1.5rem;
+  padding: 1.5rem 0.5rem;
   align-items: center;
   width: 300px;
 `;
@@ -110,13 +151,19 @@ const Label = styled.span`
   margin-right: 0.5rem;
   font-weight: 400;
   color: ${(props: JSX.IntrinsicAttributes) => props.cssProps.accent || '#fff'};
-  display: flex;
-  flex-direction: row;
-  align-items: center;
   text-transform: uppercase;
   font-size: 0.8rem;
+  position: relative;
 
-  > svg {
+  cursor: pointer;
+
+  span {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  svg {
     margin-right: 0.25rem;
   }
 `;
@@ -206,4 +253,15 @@ const DamageButton = styled(HoverButton)`
 const HealButton = styled(HoverButton)`
   right: -5px;
   top: -5px;
+`;
+
+const InputHolder = styled.div`
+  padding: 0.5rem;
+  border-radius: 5px;
+  position: absolute;
+  left: 20px;
+  top: 20px;
+  background: #3f3f3f;
+  z-index: 3;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
 `;

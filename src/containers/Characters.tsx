@@ -7,15 +7,29 @@ import CharacterForm from 'src/components/CharacterForm';
 import { useRequestedData } from 'src/hooks/http';
 import { getCharacters } from 'src/core/api';
 import { useStoredUser } from 'src/hooks/storage';
+import { Sockets } from 'src/core/socket';
 
 const Characters = () => {
   const userId = useStoredUser();
+  const socketContext = React.useContext(Sockets);
   const [displayForm, toggleForm] = React.useState(false);
   const [characters, setCharacters] = React.useState<Character[]>([]);
   const hasCharacter = characters.reduce(
     (curr, next) => curr || next.owner_id === userId,
     false
   );
+
+  React.useEffect(() => {
+    const { message } = socketContext;
+    if (message && message.event_type === 'character_event') {
+      console.log('New message with character', message.data);
+      const targetCharacter = message.data;
+      const newCharacters = characters
+        .filter((char) => char.character_id !== targetCharacter.character_id)
+        .concat(targetCharacter);
+      setCharacters(newCharacters);
+    }
+  }, [socketContext.message]);
 
   const [characterRequest] = useRequestedData<Character[]>(getCharacters());
 
@@ -37,9 +51,11 @@ const Characters = () => {
     <CharacterContainer>
       <Topic>Player characters</Topic>
       <CharacterList>
-        {characters.map((character) => (
-          <Character character={character} />
-        ))}
+        {characters
+          .sort((a, b) => a.hit_points - b.hit_points)
+          .map((character) => (
+            <Character key={character.character_id} character={character} />
+          ))}
       </CharacterList>
       {!hasCharacter && (
         <Button

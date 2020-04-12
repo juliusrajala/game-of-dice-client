@@ -146,3 +146,17 @@ export const setUserColor = (color: string) => {
     }),
   }).then(statusHandler);
 };
+
+export const setCharacterAttribute = (key, value, id) => {
+  return fetch(`${apiBase}/characters/value`, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    method: 'POST',
+    body: JSON.stringify({
+      key,
+      value,
+      id,
+    }),
+  }).then(statusHandler);
+};

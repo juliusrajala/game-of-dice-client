@@ -21,6 +21,7 @@ export function useSocket() {
       });
 
       socket.on('message', (data) => {
+        console.log('Message received', data);
         pushMessage(data);
       });
 
@@ -40,3 +41,35 @@ export function useSocket() {
 
   return { message: message, connected: connected };
 }
+
+interface SocketContext {
+  message: any;
+  connected: boolean;
+}
+
+export const Sockets = React.createContext<SocketContext>({
+  message: null,
+  connected: false,
+});
+
+export const SocketProvider: React.SFC = (props) => {
+  const [freshMessage, setMessage] = React.useState([]);
+  const { message, connected } = useSocket();
+
+  React.useEffect(() => {
+    if (message) {
+      setMessage(message);
+    }
+  }, [message]);
+
+  return (
+    <Sockets.Provider
+      value={{
+        message: freshMessage,
+        connected,
+      }}
+    >
+      {props.children}
+    </Sockets.Provider>
+  );
+};

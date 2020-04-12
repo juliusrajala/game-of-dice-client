@@ -9,6 +9,7 @@ import { useStoredUser } from 'src/hooks/storage';
 import { getUser } from 'src/core/api';
 import NewUserForm from './components/UserForm';
 import { FiLock } from 'react-icons/fi';
+import { SocketProvider } from 'src/core/socket';
 
 const ReactApp = () => {
   return ReactDOM.render(<App />, document.getElementById('react-root'));
@@ -50,27 +51,29 @@ const App: React.SFC<any> = () => {
         logOut,
       }}
     >
-      <Page>
-        <ContentWrapper>
-          <Title>noppa.io</Title>
-          {!user ? (
-            <NewUserForm />
-          ) : (
-            <>
-              <Logout onClick={logOut}>
-                <FiLock />
-                Log out
-              </Logout>
-              <MainPanel>
-                <UserPanel />
-                <DiceControl />
-              </MainPanel>
-              <EventTray />
-            </>
-          )}
-        </ContentWrapper>
-        <Footer />
-      </Page>
+      <SocketProvider>
+        <Page>
+          <ContentWrapper>
+            <Title>noppa.io</Title>
+            {!user ? (
+              <NewUserForm />
+            ) : (
+              <>
+                <Logout onClick={logOut}>
+                  <FiLock />
+                  Log out
+                </Logout>
+                <MainPanel>
+                  <UserPanel />
+                  <DiceControl />
+                </MainPanel>
+                <EventTray />
+              </>
+            )}
+          </ContentWrapper>
+          <Footer />
+        </Page>
+      </SocketProvider>
     </Users.Provider>
   );
 };
