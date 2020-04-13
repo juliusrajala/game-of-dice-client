@@ -6,6 +6,7 @@ import Input from './Input';
 import Button from './Button';
 import { setCharacterAttribute, postRollEvent } from 'src/core/api';
 import { getDieValue } from 'src/core/dice';
+import { useOutsideClickHandler } from 'src/hooks/outsideClick';
 
 interface Props {
   children: any;
@@ -21,6 +22,9 @@ const SkillMenu = (props: Props) => {
 
   const [displayMenu, toggleDisplay] = React.useState(false);
   const [showEdit, toggleEdit] = React.useState(false);
+  const clickRef = useOutsideClickHandler(() => toggleDisplay(false), [
+    displayMenu,
+  ]);
 
   const [inputValue, setValue] = React.useState(character[valueKey]);
 
@@ -38,6 +42,7 @@ const SkillMenu = (props: Props) => {
   };
 
   const createAttributeRoll = (ev: React.SyntheticEvent<HTMLButtonElement>) => {
+    toggleEdit(false);
     ev.preventDefault();
     ev.stopPropagation();
     return postRollEvent(
@@ -53,7 +58,7 @@ const SkillMenu = (props: Props) => {
   return (
     <SkillMenuContainer>
       {displayMenu && (
-        <MenuHolder>
+        <MenuHolder ref={clickRef}>
           <Actions>
             <ActionButton onClick={createAttributeRoll}>
               <FiShuffle />
@@ -163,5 +168,6 @@ const MenuHolder = styled.div`
   top: 0;
   background: #3f3f3f;
   z-index: 3;
-  box-shadow: 100px 100px 100px 100vw rgba(255, 255, 255, 0.5);
+  box-shadow: 100px 100px 100px 100vw rgba(33, 71, 97, 0.8),
+    50vw 50vw 100px 400px rgba(187, 63, 63, 0.8);
 `;

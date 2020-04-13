@@ -9,6 +9,7 @@ import {
   FiEye,
   FiFeather,
   FiActivity,
+  FiMinusCircle,
 } from 'react-icons/fi';
 import { Users } from 'src/App';
 import SkillMenu from './SkillMenu';
@@ -24,25 +25,33 @@ const Character = (props: Props) => {
   const isPlayerCharacter = character.owner_id === user.user_id;
   return (
     <CharacterContainer>
-      <CharacterItem
-        cssProps={{
-          accent: character.accent_color,
-          owned: isPlayerCharacter,
-        }}
-      >
-        {user.is_admin && (
-          <>
-            <DamageButton>
-              <FiZap />
-            </DamageButton>
-            <HealButton>
-              <FiPlusCircle />
-            </HealButton>
-          </>
-        )}
-        <FiUser />
+      <CharacterInfo>
         <h3>{character.character_name}</h3>
-      </CharacterItem>
+        <CharacterItem
+          cssProps={{
+            accent: character.accent_color,
+            owned: isPlayerCharacter,
+          }}
+        >
+          {user.is_admin ||
+            (isPlayerCharacter && (
+              <>
+                <DamageButton>
+                  <FiMinusCircle />
+                </DamageButton>
+                <HealButton>
+                  <FiPlusCircle />
+                </HealButton>
+              </>
+            ))}
+          <FiUser />
+        </CharacterItem>
+        <HitPoints cssProps={{ accent: character.accent_color }}>
+          <FiHeart />
+          {character.hit_points - character.damage_taken} /{' '}
+          {character.hit_points}
+        </HitPoints>
+      </CharacterInfo>
       <CardOverlay cssProps={{ accent: character.accent_color }}>
         <SkillMenu character={character} valueKey="hit_points">
           <Label cssProps={{ accent: character.accent_color }}>
@@ -92,9 +101,41 @@ export default Character;
 const CharacterContainer = styled.div`
   display: flex;
   flex-direction: row;
-  padding: 1.5rem 0.5rem;
-  align-items: center;
+  padding: 2rem 0.5rem;
   width: 300px;
+  align-items: center;
+  justify-content: center;
+`;
+
+const CharacterInfo = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  > h3 {
+    color: #3f3f3f;
+    padding: 0.25rem;
+    top: -2rem;
+  }
+`;
+
+const HitPoints = styled.div`
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  background: #3f3f3f;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 0.25rem;
+  margin: 0.25rem;
+  border-radius: 5px;
+  transition: box-shadow ease-in-out 0.2s;
+  font-size: 1rem;
+  font-weight: 800;
+  color: ${(props: JSX.IntrinsicAttributes) => props.cssProps.accent || '#fff'};
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  svg {
+    margin-right: 0.5rem;
+  }
 `;
 
 const Label = styled.div`
@@ -148,25 +189,6 @@ const CharacterItem = styled.div`
       props.cssProps.owned ? props.cssProps.accent : 'transparent'};
   > svg {
     font-size: 40px;
-  }
-
-  > h3 {
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-    background: #3f3f3f;
-    color: #fff;
-    padding: 0.25rem;
-    border-radius: 3px;
-    position: absolute;
-    bottom: -2rem;
-    left: auto;
-    right: auto;
-    transition: box-shadow ease-in-out 0.2s;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    font-size: 1rem;
-    color: ${(props: JSX.IntrinsicAttributes) =>
-      props.cssProps.owned ? props.cssProps.accent : '#fff'};
   }
 `;
 
