@@ -105,7 +105,7 @@ const Title = styled.h2`
 const Event = styled.div`
   padding: 0.5rem;
   opacity: ${(props: JSX.IntrinsicAttributes) =>
-    1 - props.cssProps.index * 0.1};
+    Math.max(1 - props.cssProps.index * 0.05, 0.5)};
 
   &:hover {
     opacity: 1;

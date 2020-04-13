@@ -11,61 +11,11 @@ import {
   FiActivity,
 } from 'react-icons/fi';
 import { Users } from 'src/App';
-import Input from './Input';
-import Button from './Button';
-import { setCharacterAttribute } from 'src/core/api';
+import SkillMenu from './SkillMenu';
 
 interface Props {
   character: Character;
 }
-
-interface InputProps {
-  children: any;
-  valueKey: string;
-  character: Character;
-  isPlayerCharacter: boolean;
-}
-
-const InputPrompt = (props: InputProps) => {
-  const [inputValue, setValue] = React.useState(
-    props.character[props.valueKey]
-  );
-  const [displayInput, toggleDisplay] = React.useState(false);
-
-  const submitNewValue = (ev) => {
-    if (!props.isPlayerCharacter) {
-      return;
-    }
-    ev.preventDefault();
-    ev.stopPropagation();
-    return setCharacterAttribute(
-      props.valueKey,
-      inputValue,
-      props.character.character_id
-    ).then(() => toggleDisplay(false));
-  };
-
-  return (
-    <Label cssProps={{ accent: props.character.accent_color }}>
-      {displayInput && (
-        <InputHolder>
-          <Input
-            label={props.children}
-            inputProps={{ defaultValue: inputValue, autoFocus: true }}
-            onChange={(ev) => setValue(parseInt(ev.target.value))}
-          />
-          <Button onClick={submitNewValue} label="Save value" />
-        </InputHolder>
-      )}
-      <span
-        onClick={() => props.isPlayerCharacter && toggleDisplay(!displayInput)}
-      >
-        {props.children}
-      </span>
-    </Label>
-  );
-};
-
 const Character = (props: Props) => {
   const userContext = React.useContext(Users);
   const { user } = userContext;
@@ -93,76 +43,45 @@ const Character = (props: Props) => {
         <FiUser />
         <h3>{character.character_name}</h3>
       </CharacterItem>
-      <CardOverlay cssProps={{ accent: props.character.accent_color }}>
-        <span>
-          <InputPrompt
-            character={character}
-            isPlayerCharacter={isPlayerCharacter}
-            valueKey="hit_points"
-          >
+      <CardOverlay cssProps={{ accent: character.accent_color }}>
+        <SkillMenu character={character} valueKey="hit_points">
+          <Label cssProps={{ accent: character.accent_color }}>
             <FiHeart />
             hp
-          </InputPrompt>
-          {character.hit_points - (character.damage_taken || 0)}/
-          {character.hit_points}
-        </span>
-        <span>
-          <InputPrompt
-            character={character}
-            isPlayerCharacter={isPlayerCharacter}
-            valueKey="armor_class"
-          >
+          </Label>
+        </SkillMenu>
+        <SkillMenu character={character} valueKey="armor_class">
+          <Label cssProps={{ accent: character.accent_color }}>
             <FiShield />
             ac
-          </InputPrompt>
-          {character.armor_class}
-        </span>
-        <span>
-          <InputPrompt
-            character={character}
-            isPlayerCharacter={isPlayerCharacter}
-            valueKey="attack_bonus"
-          >
+          </Label>
+        </SkillMenu>
+        <SkillMenu character={character} valueKey="attack_bonus">
+          <Label cssProps={{ accent: character.accent_color }}>
             <FiZap />
             ab
-          </InputPrompt>
-          +{character.attack_bonus}
-        </span>
+          </Label>
+        </SkillMenu>
       </CardOverlay>
       <CardOverlay cssProps={{ accent: props.character.accent_color }}>
-        <span>
-          <InputPrompt
-            character={character}
-            isPlayerCharacter={isPlayerCharacter}
-            valueKey="fortitude"
-          >
+        <SkillMenu character={character} valueKey="fortitude">
+          <Label cssProps={{ accent: character.accent_color }}>
             <FiActivity />
             Fo
-          </InputPrompt>
-          {character.fortitude}
-        </span>
-        <span>
-          <InputPrompt
-            character={character}
-            isPlayerCharacter={isPlayerCharacter}
-            valueKey="reflex"
-          >
+          </Label>
+        </SkillMenu>
+        <SkillMenu character={character} valueKey="reflex">
+          <Label cssProps={{ accent: character.accent_color }}>
             <FiFeather />
             Re
-          </InputPrompt>
-          {character.reflex}
-        </span>
-        <span>
-          <InputPrompt
-            character={character}
-            isPlayerCharacter={isPlayerCharacter}
-            valueKey="will"
-          >
+          </Label>
+        </SkillMenu>
+        <SkillMenu character={character} valueKey="will">
+          <Label cssProps={{ accent: character.accent_color }}>
             <FiEye />
             Wi
-          </InputPrompt>
-          {character.will}
-        </span>
+          </Label>
+        </SkillMenu>
       </CardOverlay>
     </CharacterContainer>
   );
@@ -178,7 +97,7 @@ const CharacterContainer = styled.div`
   width: 300px;
 `;
 
-const Label = styled.span`
+const Label = styled.div`
   background: #3f3f3f;
   padding: 0.125rem 0.25rem;
   border-radius: 4px;
@@ -187,15 +106,9 @@ const Label = styled.span`
   color: ${(props: JSX.IntrinsicAttributes) => props.cssProps.accent || '#fff'};
   text-transform: uppercase;
   font-size: 0.8rem;
-  position: relative;
-
-  cursor: pointer;
-
-  span {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-  }
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 
   svg {
     margin-right: 0.25rem;
@@ -287,15 +200,4 @@ const DamageButton = styled(HoverButton)`
 const HealButton = styled(HoverButton)`
   right: -5px;
   top: -5px;
-`;
-
-const InputHolder = styled.div`
-  padding: 0.5rem;
-  border-radius: 5px;
-  position: absolute;
-  left: 20px;
-  top: 20px;
-  background: #3f3f3f;
-  z-index: 3;
-  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
 `;
