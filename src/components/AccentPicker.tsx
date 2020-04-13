@@ -13,6 +13,8 @@ const colors = [
   '#ea8685',
   '#778beb',
   '#f3a683',
+  '#f8a5c2',
+  '#e77f67',
 ];
 
 const AccentPicker = () => {

@@ -10,6 +10,7 @@ import {
   FiFeather,
   FiActivity,
   FiMinusCircle,
+  FiList,
 } from 'react-icons/fi';
 import { Users } from 'src/App';
 import SkillMenu from './SkillMenu';
@@ -74,13 +75,14 @@ const Character = (props: Props) => {
           {character.hit_points}
         </HitPoints>
       </CharacterInfo>
-      <CardOverlay cssProps={{ accent: character.accent_color }}>
+      <SkillList cssProps={{ accent: character.accent_color }}>
         <SkillMenu character={character} valueKey="hit_points">
           <Label cssProps={{ accent: character.accent_color }}>
             <FiHeart />
             hp
           </Label>
         </SkillMenu>
+        <br />
         <SkillMenu character={character} valueKey="armor_class">
           <Label cssProps={{ accent: character.accent_color }}>
             <FiShield />
@@ -93,8 +95,7 @@ const Character = (props: Props) => {
             ab
           </Label>
         </SkillMenu>
-      </CardOverlay>
-      <CardOverlay cssProps={{ accent: props.character.accent_color }}>
+        <br />
         <SkillMenu character={character} valueKey="fortitude">
           <Label cssProps={{ accent: character.accent_color }}>
             <FiActivity />
@@ -113,7 +114,15 @@ const Character = (props: Props) => {
             Wi
           </Label>
         </SkillMenu>
-      </CardOverlay>
+      </SkillList>
+      <SkillList cssProps={{ accent: props.character.accent_color }}>
+        <SkillMenu character={character} valueKey="initiative">
+          <Label cssProps={{ accent: character.accent_color }}>
+            <FiList />
+            In
+          </Label>
+        </SkillMenu>
+      </SkillList>
     </CharacterContainer>
   );
 };
@@ -134,9 +143,10 @@ const CharacterInfo = styled.div`
   flex-direction: column;
   align-items: center;
   > h3 {
+    font-weight: 600;
+    font-size: 1.2rem;
     color: #3f3f3f;
-    padding: 0.25rem;
-    top: -2rem;
+    padding: 0.5rem 0.25rem;
   }
 `;
 
@@ -178,13 +188,23 @@ const Label = styled.div`
   }
 `;
 
-const CardOverlay = styled.div`
-  margin-left: 0.5rem;
+const SkillList = styled.div`
+  margin-left: 0.25rem;
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: flex-start;
+
+  > br {
+    flex: 1;
+  }
+
   > span {
     display: flex;
     flex-direction: row;
     align-items: center;
-    margin: 0.25rem;
+    margin: 0.125rem;
     width: auto;
     color: #3f3f3f;
     font-weight: 600;
@@ -201,10 +221,14 @@ const CharacterItem = styled.div`
   justify-content: center;
   font-size: 1.2rem;
   font-weight: 600;
-  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  box-shadow: ${(props: JSX.IntrinsicAttributes) =>
+    props.cssProps.owned
+      ? '0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22)'
+      : '0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24)'};
   color: ${(props: JSX.IntrinsicAttributes) =>
     props.cssProps.accent || '#0fbcf9'};
-  cursor: pointer;
+  cursor: ${(props: JSX.IntrinsicAttributes) =>
+    props.cssProps.owned ? 'pointer' : 'default'};
   background: #3f3f3f;
   border: 3px solid
     ${(props: JSX.IntrinsicAttributes) =>

@@ -17,6 +17,7 @@ interface Props {
 const SkillMenu = (props: Props) => {
   const userContext = React.useContext(Users);
   const { character, valueKey } = props;
+  const startingValue = character[valueKey] || 0;
   const { user } = userContext;
   const canEdit = user.user_id === character.owner_id;
 
@@ -26,7 +27,7 @@ const SkillMenu = (props: Props) => {
     displayMenu,
   ]);
 
-  const [inputValue, setValue] = React.useState(character[valueKey]);
+  const [inputValue, setValue] = React.useState(startingValue);
 
   const submitNewValue = (ev: React.SyntheticEvent<HTMLButtonElement>) => {
     if (!canEdit) {
@@ -49,7 +50,7 @@ const SkillMenu = (props: Props) => {
       [{ id: '', type: 'd20', value: getDieValue(20) }],
       `${valueKey
         .replace('_', ' ')
-        .toUpperCase()} rolled. Character has bonus of ${character[valueKey]}.`
+        .toUpperCase()} rolled. Character has bonus of ${startingValue}.`
     )
       .then(() => toggleDisplay(false))
       .catch(console.error);
@@ -92,7 +93,7 @@ const SkillMenu = (props: Props) => {
         onClick={() => canEdit && toggleDisplay(!displayMenu)}
       >
         {props.children}
-        <Value>{character[valueKey]}</Value>
+        <Value>{startingValue || 0}</Value>
       </CursorTarget>
     </SkillMenuContainer>
   );
@@ -104,7 +105,7 @@ const SkillMenuContainer = styled.div`
   padding: 0;
   margin: 0;
   position: relative;
-  margin: 0.25rem;
+  margin: 0.125rem 0.25rem;
 `;
 
 const Value = styled.span`
