@@ -10,6 +10,7 @@ import { getUser } from 'src/core/api';
 import NewUserForm from './components/UserForm';
 import { FiLock } from 'react-icons/fi';
 import { SocketProvider } from 'src/core/socket';
+import InputSwitch from './components/InputSwitch';
 
 const ReactApp = () => {
   return ReactDOM.render(<App />, document.getElementById('react-root'));
@@ -26,6 +27,7 @@ export const Users = React.createContext<UserContext>({
 });
 
 const App: React.SFC<any> = () => {
+  const [accMode, setAccMode] = React.useState(false);
   const [user, setUser] = React.useState<User>(null);
 
   const userId = useStoredUser();
@@ -52,9 +54,16 @@ const App: React.SFC<any> = () => {
       }}
     >
       <SocketProvider>
-        <Page>
+        <Page cssProps={{ accMode }}>
           <ContentWrapper>
             <Title>noppa.io</Title>
+            <FocusWrapper>
+              <InputSwitch
+                label="Emphasize focus"
+                toggle={() => setAccMode(!accMode)}
+                isToggled={accMode}
+              />
+            </FocusWrapper>
             {!user ? (
               <NewUserForm />
             ) : (
@@ -83,7 +92,7 @@ const ContentWrapper = styled.div`
   justify-content: center;
   display: flex;
   width: 100%;
-  padding: 5rem;
+  padding: 7rem 5rem;
   flex-direction: row;
   position: relative;
   align-items: flex-start;
@@ -104,12 +113,28 @@ const Page = styled.main`
   );
   * {
     font-family: 'Source Sans Pro', Helvetica, Arial;
-    &:focus {
-      transition: all 0s;
-      outline: 5px double #bb3f3f;
-      outline-offset: 5px;
-    }
+
+    ${(props: JSX.IntrinsicAttributes) =>
+      props.cssProps.accMode
+        ? `
+          &:focus {
+            transition: all 0s;
+            outline: 5px solid #bb3f3f;
+            outline-offset: 5px;
+          }`
+        : `
+          &:focus {
+            transition: all 0s;
+            outline: 4px solid rgba(187, 63, 63, 0.5);
+          }
+    `}
   }
+`;
+
+const FocusWrapper = styled.div`
+  position: absolute;
+  right: 6rem;
+  top: 1rem;
 `;
 
 const MainPanel = styled.section`
