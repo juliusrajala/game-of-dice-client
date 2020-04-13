@@ -4,12 +4,15 @@ import { setUserColor } from 'src/core/api';
 
 const colors = [
   '#ef5777',
-  '#3c40c6',
   '#ff5e57',
   '#ffd32a',
   '#05c46b',
   '#00d8d6',
   '#808e9b',
+  '#ffdd59',
+  '#ea8685',
+  '#778beb',
+  '#f3a683',
 ];
 
 const AccentPicker = () => {

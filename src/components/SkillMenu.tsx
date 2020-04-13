@@ -4,7 +4,8 @@ import { FiEdit, FiSave, FiShuffle } from 'react-icons/fi';
 import { Users } from 'src/App';
 import Input from './Input';
 import Button from './Button';
-import { setCharacterAttribute } from 'src/core/api';
+import { setCharacterAttribute, postRollEvent } from 'src/core/api';
+import { getDieValue } from 'src/core/dice';
 
 interface Props {
   children: any;
@@ -23,7 +24,7 @@ const SkillMenu = (props: Props) => {
 
   const [inputValue, setValue] = React.useState(character[valueKey]);
 
-  const submitNewValue = (ev) => {
+  const submitNewValue = (ev: React.SyntheticEvent<HTMLButtonElement>) => {
     if (!canEdit) {
       return;
     }
@@ -36,12 +37,25 @@ const SkillMenu = (props: Props) => {
     ).then(() => toggleDisplay(false));
   };
 
+  const createAttributeRoll = (ev: React.SyntheticEvent<HTMLButtonElement>) => {
+    ev.preventDefault();
+    ev.stopPropagation();
+    return postRollEvent(
+      [{ id: '', type: 'd20', value: getDieValue(20) }],
+      `${valueKey
+        .replace('_', ' ')
+        .toUpperCase()} rolled. Character has bonus of ${character[valueKey]}.`
+    )
+      .then(() => toggleDisplay(false))
+      .catch(console.error);
+  };
+
   return (
     <SkillMenuContainer>
       {displayMenu && (
         <MenuHolder>
           <Actions>
-            <ActionButton>
+            <ActionButton onClick={createAttributeRoll}>
               <FiShuffle />
             </ActionButton>
             <ActionButton onClick={() => canEdit && toggleEdit(!showEdit)}>
@@ -73,7 +87,7 @@ const SkillMenu = (props: Props) => {
         onClick={() => canEdit && toggleDisplay(!displayMenu)}
       >
         {props.children}
-        <span>{character[valueKey]}</span>
+        <Value>{character[valueKey]}</Value>
       </CursorTarget>
     </SkillMenuContainer>
   );
@@ -86,6 +100,10 @@ const SkillMenuContainer = styled.div`
   margin: 0;
   position: relative;
   margin: 0.25rem;
+`;
+
+const Value = styled.span`
+  font-weight: 600;
 `;
 
 const Actions = styled.div`

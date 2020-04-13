@@ -43,8 +43,10 @@ declare interface DndEvent {
   event_type: EventType;
   event_id: string;
   creator: string;
-  timestamp: number;
+  timestamp: number | string;
   description: string;
+  accent_color?: string;
+  player_name?: string;
 }
 
 declare interface DiceEvent extends DndEvent {
