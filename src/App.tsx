@@ -104,6 +104,10 @@ const Page = styled.main`
   );
   * {
     font-family: 'Source Sans Pro', Helvetica, Arial;
+    &:focus {
+      transition: all 0s;
+      outline: 5px double #bb3f3f;
+    }
   }
 `;
 

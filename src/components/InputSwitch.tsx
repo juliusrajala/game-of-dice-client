@@ -12,7 +12,11 @@ const InputSwitch = (props: Props) => {
     <SliderContainer>
       <h5>{props.label}:</h5>
       <Slider cssProps={{ isToggled: props.isToggled }}>
-        <input onClick={() => props.toggle()} type="checkbox" />
+        <input
+          onChange={() => props.toggle()}
+          onClick={() => props.toggle()}
+          type="checkbox"
+        />
         <SliderIndicator cssProps={{ isToggled: props.isToggled }} />
       </Slider>
     </SliderContainer>
@@ -54,6 +58,10 @@ const Slider = styled.div`
     position: absolute;
     z-index: 3;
     opacity: 0;
+    &:focus ~ span {
+      outline: 5px double #fff;
+      outline-offset: 3px;
+    }
   }
 
   > h5 {

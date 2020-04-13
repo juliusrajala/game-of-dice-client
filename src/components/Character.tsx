@@ -13,14 +13,36 @@ import {
 } from 'react-icons/fi';
 import { Users } from 'src/App';
 import SkillMenu from './SkillMenu';
+import { setCharacterAttribute } from 'src/core/api';
 
 interface Props {
   character: Character;
 }
+
 const Character = (props: Props) => {
   const userContext = React.useContext(Users);
   const { user } = userContext;
   const { character } = props;
+
+  const increaseHp = (ev: React.SyntheticEvent<HTMLButtonElement>) => {
+    ev.preventDefault();
+    ev.stopPropagation();
+    return setCharacterAttribute(
+      'damage_taken',
+      parseInt(character.damage_taken as any) - 1,
+      character.character_id
+    ).then(console.log);
+  };
+
+  const decreaseHp = (ev: React.SyntheticEvent<HTMLButtonElement>) => {
+    ev.preventDefault();
+    ev.stopPropagation();
+    return setCharacterAttribute(
+      'damage_taken',
+      parseInt((character.damage_taken as any) || 0) + 1,
+      character.character_id
+    ).then(console.log);
+  };
 
   const isPlayerCharacter = character.owner_id === user.user_id;
   return (
@@ -36,10 +58,10 @@ const Character = (props: Props) => {
           {user.is_admin ||
             (isPlayerCharacter && (
               <>
-                <DamageButton>
+                <DamageButton onClick={decreaseHp}>
                   <FiMinusCircle />
                 </DamageButton>
-                <HealButton>
+                <HealButton onClick={increaseHp}>
                   <FiPlusCircle />
                 </HealButton>
               </>
