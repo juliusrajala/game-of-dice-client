@@ -53,7 +53,7 @@ const ConnectionIndicator = styled.span`
   position: absolute;
   height: 30px;
   width: 30px;
-  top: 1rem;
+  top: -2.5rem;
   right: 1rem;
   background: ${(props: JSX.IntrinsicAttributes) =>
     props.cssProps.connected ? '#05c46b' : '#ff3f34'};
@@ -63,19 +63,19 @@ const ConnectionIndicator = styled.span`
 `;
 
 const EventContainer = styled.section`
-  padding: 1rem;
-  background: rgba(255, 255, 255, 0.9);
   flex: 1;
   border-radius: 5px;
   margin-left: 1rem;
   height: auto;
   position: relative;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-  overflow: auto;
 `;
 
 const Title = styled.h2`
-  font-weight: 300;
   font-size: 1.5rem;
   margin-bottom: 1rem;
+  position: absolute;
+  top: -2rem;
+  left: 1rem;
+  font-weight: 400;
+  color: #fff;
 `;

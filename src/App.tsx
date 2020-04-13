@@ -59,11 +59,11 @@ const App: React.SFC<any> = () => {
               <NewUserForm />
             ) : (
               <>
-                <Logout onClick={logOut}>
-                  <FiLock />
-                  Log out
-                </Logout>
                 <MainPanel>
+                  <Logout onClick={logOut}>
+                    <FiLock />
+                    Log out
+                  </Logout>
                   <UserPanel />
                   <DiceControl />
                 </MainPanel>
@@ -113,6 +113,7 @@ const MainPanel = styled.section`
   flex-direction: column;
   height: auto;
   align-self: flex-start;
+  position: relative;
 `;
 
 const Title = styled.h1`
@@ -128,8 +129,8 @@ const Logout = styled.button`
   font-size: 1rem;
   color: #fff;
   position: absolute;
-  right: 5rem;
-  top: 3rem;
+  right: 0rem;
+  top: -2rem;
   background: transparent;
   border: none;
   display: flex;

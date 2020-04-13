@@ -51,9 +51,11 @@ const Event = styled.div`
   opacity: ${(props: JSX.IntrinsicAttributes) =>
     Math.max(1 - props.cssProps.index * 0.05, 0.5)};
 
-  &:not(:last-child) {
-    border-bottom: 2px solid rgba(0, 0, 0, 0.05);
-  }
+  color: #3f3f3f;
+  background: #fff;
+  border-radius: 5px;
+  margin-bottom: 0.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 
   &:hover {
     opacity: 1;
@@ -91,8 +93,8 @@ const Die = styled.div`
   align-items: center;
   justify-content: center;
   border-radius: 5px;
-  border: 3px solid #3f3f3f;
-  color: #3f3f3f;
+  border: 3px solid #1f1f1f;
+  color: #1f1f1f;
   font-weight: 600;
   text-transform: uppercase;
   margin-right: 0.5rem;
