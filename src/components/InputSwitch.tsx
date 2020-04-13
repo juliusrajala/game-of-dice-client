@@ -59,8 +59,9 @@ const Slider = styled.div`
     z-index: 3;
     opacity: 0;
     &:focus ~ span {
-      outline: 5px double #fff;
-      outline-offset: 3px;
+      transition: all 0s;
+      outline: 5px double #bb3f3f;
+      outline-offset: 5px;
     }
   }
 

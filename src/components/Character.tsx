@@ -134,7 +134,7 @@ const CharacterContainer = styled.div`
   flex-direction: row;
   padding: 2rem 0.5rem;
   width: 300px;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
 `;
 
@@ -146,7 +146,7 @@ const CharacterInfo = styled.div`
     font-weight: 600;
     font-size: 1.2rem;
     color: #3f3f3f;
-    padding: 0.5rem 0.25rem;
+    padding: 0rem 0.25rem 0.5rem;
   }
 `;
 

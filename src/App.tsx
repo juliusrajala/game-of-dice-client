@@ -107,6 +107,7 @@ const Page = styled.main`
     &:focus {
       transition: all 0s;
       outline: 5px double #bb3f3f;
+      outline-offset: 5px;
     }
   }
 `;

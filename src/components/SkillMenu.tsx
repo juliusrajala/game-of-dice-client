@@ -7,6 +7,7 @@ import Button from './Button';
 import { setCharacterAttribute, postRollEvent } from 'src/core/api';
 import { getDieValue } from 'src/core/dice';
 import { useOutsideClickHandler } from 'src/hooks/outsideClick';
+import { mimicButtonBehavior } from 'src/utils/accessibility';
 
 interface Props {
   children: any;
@@ -61,7 +62,7 @@ const SkillMenu = (props: Props) => {
       {displayMenu && (
         <MenuHolder ref={clickRef}>
           <Actions>
-            <ActionButton onClick={createAttributeRoll}>
+            <ActionButton autoFocus onClick={createAttributeRoll}>
               <FiShuffle />
             </ActionButton>
             <ActionButton onClick={() => canEdit && toggleEdit(!showEdit)}>
@@ -89,7 +90,11 @@ const SkillMenu = (props: Props) => {
         </MenuHolder>
       )}
       <CursorTarget
+        tabIndex={canEdit ? 0 : -1}
         cssProps={{ canEdit, displayMenu }}
+        onKeyPress={mimicButtonBehavior(
+          () => canEdit && toggleDisplay(!displayMenu)
+        )}
         onClick={() => canEdit && toggleDisplay(!displayMenu)}
       >
         {props.children}
