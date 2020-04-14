@@ -76,3 +76,10 @@ declare interface Character {
   player_name?: string;
   accent_color?: string;
 }
+
+declare interface Room {
+  room_id: string;
+  owner_id: string;
+  room_name: string;
+  timestamp: number;
+}

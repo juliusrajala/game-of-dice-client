@@ -10,7 +10,8 @@ import { getUser } from 'src/core/api';
 import NewUserForm from './components/UserForm';
 import { FiLock } from 'react-icons/fi';
 import { SocketProvider } from 'src/core/socket';
-import InputSwitch from './components/InputSwitch';
+import InputSwitch from 'src/components/InputSwitch';
+import Rooms from 'src/containers/Rooms';
 
 const ReactApp = () => {
   return ReactDOM.render(<App />, document.getElementById('react-root'));
@@ -73,6 +74,7 @@ const App: React.SFC<any> = () => {
                     <FiLock />
                     Log out
                   </Logout>
+                  <Rooms />
                   <UserPanel />
                   <DiceControl />
                 </MainPanel>
