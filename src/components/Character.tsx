@@ -147,6 +147,10 @@ const CharacterInfo = styled.div`
     font-size: 1.2rem;
     color: #3f3f3f;
     padding: 0rem 0.25rem 0.5rem;
+    overflow: hidden;
+    max-width: 150px;
+    text-overflow: ellipsis;
+    white-space: no-wrap;
   }
 `;
 
