@@ -5,6 +5,7 @@ import Input from 'src/components/Input';
 import { FiUnlock, FiUserPlus } from 'react-icons/fi';
 import Button from 'src/components/Button';
 import { Users } from 'src/App';
+import { Redirect } from 'react-router';
 
 const LoginForm = () => {
   const userContext = React.useContext(Users);
@@ -36,6 +37,10 @@ const LoginForm = () => {
         setError(err.message);
       });
   };
+
+  if (userContext.user) {
+    return <Redirect to={{ pathname: '/' }} />;
+  }
 
   return (
     <LoginModal>
