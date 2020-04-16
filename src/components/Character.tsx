@@ -15,6 +15,7 @@ import {
 import { Users } from 'src/App';
 import SkillMenu from './SkillMenu';
 import { setCharacterAttribute } from 'src/core/api';
+import Tooltip from './Tooltip';
 
 interface Props {
   character: Character;
@@ -49,7 +50,9 @@ const Character = (props: Props) => {
   return (
     <CharacterContainer>
       <CharacterInfo>
-        <h3>{character.character_name}</h3>
+        <Tooltip label={character.character_name}>
+          <CharacterName>{character.character_name}</CharacterName>
+        </Tooltip>
         <CharacterItem
           cssProps={{
             accent: character.accent_color,
@@ -142,16 +145,17 @@ const CharacterInfo = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  > h3 {
-    font-weight: 600;
-    font-size: 1.2rem;
-    color: #3f3f3f;
-    padding: 0rem 0.25rem 0.5rem;
-    overflow: hidden;
-    max-width: 150px;
-    text-overflow: ellipsis;
-    white-space: no-wrap;
-  }
+`;
+
+const CharacterName = styled.h3`
+  font-weight: 600;
+  font-size: 1.2rem;
+  color: #3f3f3f;
+  padding: 0rem 0.25rem 0.5rem;
+  overflow: hidden;
+  max-width: 150px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `;
 
 const HitPoints = styled.div`

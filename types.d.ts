@@ -73,6 +73,9 @@ declare interface Character {
   reflex: number;
   will: number;
   fortitude: number;
+  initiative: number;
+  level: number;
+  class: string;
   player_name?: string;
   accent_color?: string;
 }

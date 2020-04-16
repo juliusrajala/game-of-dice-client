@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 interface Props {
   label: string;
-  children: React.ReactChildren;
+  children: React.ReactChild;
 }
 
 const Tooltip = (props: Props) => {

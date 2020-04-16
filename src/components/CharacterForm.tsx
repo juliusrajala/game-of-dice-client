@@ -10,6 +10,9 @@ import {
   FiEye,
   FiFeather,
   FiActivity,
+  FiList,
+  FiUsers,
+  FiPlus,
 } from 'react-icons/fi';
 import Input from 'src/components/Input';
 import Button from 'src/components/Button';
@@ -28,6 +31,9 @@ const initialCharacter = {
   reflex: 0,
   will: 0,
   fortitude: 0,
+  initiative: 0,
+  class: '',
+  level: 1,
 };
 
 const CharacterForm = (props: Props) => {
@@ -57,7 +63,7 @@ const CharacterForm = (props: Props) => {
           setValue({ ...formData, character_name: ev.target.value })
         }
       />
-      <FormColumn>
+      <FormRow>
         <Input
           label={
             <>
@@ -94,8 +100,8 @@ const CharacterForm = (props: Props) => {
             setValue({ ...formData, attack_bonus: parseInt(ev.target.value) })
           }
         />
-      </FormColumn>
-      <FormColumn>
+      </FormRow>
+      <FormRow>
         <Input
           label={
             <>
@@ -132,7 +138,43 @@ const CharacterForm = (props: Props) => {
             setValue({ ...formData, will: parseInt(ev.target.value) })
           }
         />
-      </FormColumn>
+      </FormRow>
+      <FormRow>
+        <Input
+          label={
+            <>
+              <FiList />
+              Initiative
+            </>
+          }
+          inputProps={{ type: 'number', defaultValue: formData.initiative }}
+          onChange={(ev) =>
+            setValue({ ...formData, initiative: parseInt(ev.target.value) })
+          }
+        />
+        <Input
+          label={
+            <>
+              <FiUsers />
+              Class
+            </>
+          }
+          inputProps={{ type: 'text', defaultValue: formData.class }}
+          onChange={(ev) => setValue({ ...formData, class: ev.target.value })}
+        />
+        <Input
+          label={
+            <>
+              <FiPlus />
+              Level
+            </>
+          }
+          inputProps={{ type: 'number', defaultValue: formData.level }}
+          onChange={(ev) =>
+            setValue({ ...formData, level: parseInt(ev.target.value) })
+          }
+        />
+      </FormRow>
       <FormActions>
         <Button
           onClick={props.toggleForm}
@@ -158,10 +200,15 @@ const CharacterForm = (props: Props) => {
 export default CharacterForm;
 
 const Form = styled.form``;
-const FormColumn = styled.div`
-  width: 150px;
-  display: inline-block;
+const FormRow = styled.div`
+  display: flex;
+  flex-direction: row;
   margin-right: 1rem;
+  > * {
+    flex: 1;
+    margin-right: 1rem;
+    max-width: 150px;
+  }
 `;
 
 const FormActions = styled.div`
