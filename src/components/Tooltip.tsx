@@ -31,8 +31,11 @@ const Container = styled.div`
 `;
 
 const Tip = styled.div`
-  padding: 0.5rem;
+  padding: 0.25rem;
   background: #fff;
   color: black;
   position: absolute;
+  border-radius: 3px;
+  z-index: 3;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
 `;
