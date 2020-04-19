@@ -44,17 +44,18 @@ export const getRooms = () => {
   }).then(statusHandler);
 };
 
-export const postNewRoom = () => {
+export const postNewRoom = (roomName) => {
   const userId = localStorage.getItem('godUserId');
-  return fetch(`${apiBase}/create/roll`, {
+  return fetch(`${apiBase}/rooms/create`, {
     headers: {
       'Content-Type': 'application/json',
     },
     method: 'POST',
     body: JSON.stringify({
       owner_id: userId,
+      room_name: roomName,
     }),
-  });
+  }).then(statusHandler);
 };
 
 export const getRoom = (room_id) => {

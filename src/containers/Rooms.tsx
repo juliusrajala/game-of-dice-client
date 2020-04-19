@@ -3,14 +3,22 @@ import styled from 'styled-components';
 import Input from 'src/components/Input';
 import Button from 'src/components/Button';
 import { FiSearch, FiFolderPlus } from 'react-icons/fi';
+import { useHistory, Link } from 'react-router-dom';
+import { postNewRoom } from 'src/core/api';
+import { roomContext } from 'src/context/rooms';
 
 const Rooms = () => {
+  const rooms = React.useContext(roomContext);
+  const history = useHistory();
   const [search, setSearch] = React.useState('');
   const [roomName, setNewRoomName] = React.useState('');
-  const [showForm, toggleForm] = React.useState(false);
 
-  const onSearch = (ev: React.SyntheticEvent<HTMLButtonElement>) => {
-    console.log('Search', search);
+  const onCreate = (ev: React.SyntheticEvent<HTMLButtonElement>) => {
+    ev.preventDefault();
+    ev.stopPropagation();
+    postNewRoom(roomName).then((room: Room) =>
+      history.push('/room/' + room.room_id)
+    );
   };
 
   return (
@@ -24,7 +32,8 @@ const Rooms = () => {
               onChange={(ev) => setSearch(ev.target.value)}
             />
             <Button
-              onClick={onSearch}
+              onClick={() => history.push('/room/' + search)}
+              disabled={search.length !== 26}
               label={
                 <>
                   <FiSearch />
@@ -42,7 +51,7 @@ const Rooms = () => {
               onChange={(ev) => setNewRoomName(ev.target.value)}
             />
             <Button
-              onClick={() => toggleForm(!showForm)}
+              onClick={onCreate}
               label={
                 <>
                   <FiFolderPlus />
@@ -53,6 +62,9 @@ const Rooms = () => {
           </RoomInput>
         </RoomSection>
       </RoomControls>
+      {rooms.ownRooms.map((room: Room) => (
+        <Link key={room.room_id} to={'/room/' + room.room_id}></Link>
+      ))}
     </RoomContainer>
   );
 };

@@ -10,7 +10,7 @@ interface RoomContext {
   setJoinedRooms?: (rooms: Room) => void;
 }
 
-export const Rooms = React.createContext<RoomContext>({
+export const roomContext = React.createContext<RoomContext>({
   ownRooms: [],
   joinedRooms: [],
   roomFetchStatus: '',
@@ -40,7 +40,7 @@ export const RoomProvider: React.SFC = (props) => {
   }, [userContext.user]);
 
   return (
-    <Rooms.Provider
+    <roomContext.Provider
       value={{
         ownRooms,
         joinedRooms,
@@ -50,6 +50,6 @@ export const RoomProvider: React.SFC = (props) => {
       }}
     >
       {props.children}
-    </Rooms.Provider>
+    </roomContext.Provider>
   );
 };

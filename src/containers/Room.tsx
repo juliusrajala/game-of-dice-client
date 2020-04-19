@@ -5,21 +5,21 @@ import EventTray from 'src/containers/Events';
 import UserPanel from 'src/containers/Users';
 import DiceControl from 'src/containers/Dice';
 import { Users } from 'src/App';
-import { Rooms } from 'src/context/rooms';
+import { roomContext } from 'src/context/rooms';
 import { getRoom } from 'src/core/api';
 import { useParams } from 'react-router';
 
 export default () => {
   const userContext = React.useContext(Users);
-  const roomContext = React.useContext(Rooms);
-  const { joinedRooms } = roomContext;
+  const roomsContext = React.useContext(roomContext);
+  const { joinedRooms } = roomsContext;
   const roomMap = joinedRooms.map((item) => item.room_id);
   const { roomId } = useParams();
   const selectedRoom = joinedRooms.find((room) => room.room_id === roomId);
 
   React.useEffect(() => {
     if (!roomMap.includes(roomId)) {
-      getRoom(roomId).then((room) => roomContext.setJoinedRooms(room));
+      getRoom(roomId).then((room) => roomsContext.setJoinedRooms(room));
     }
   }, [roomId]);
 
