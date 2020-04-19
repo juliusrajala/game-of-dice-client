@@ -6,6 +6,8 @@ interface RoomContext {
   ownRooms: Room[];
   joinedRooms: Room[];
   roomFetchStatus: HttpRequestStatus;
+  selectedRoom: string | null;
+  setSelectedRoom?: (roomId: string) => void;
   setOwnRooms?: (rooms: Room[]) => void;
   setJoinedRooms?: (rooms: Room) => void;
 }
@@ -14,11 +16,13 @@ export const roomContext = React.createContext<RoomContext>({
   ownRooms: [],
   joinedRooms: [],
   roomFetchStatus: '',
+  selectedRoom: null,
 });
 
 export const RoomProvider: React.SFC = (props) => {
   const [ownRooms, setOwnRooms] = React.useState([]);
   const [joinedRooms, setJoinedRooms] = React.useState([]);
+  const [selectedRoom, setSelectedRoom] = React.useState(null);
   const [roomFetchStatus, setRoomFetchStatus] = React.useState<
     HttpRequestStatus
   >('');
@@ -46,6 +50,8 @@ export const RoomProvider: React.SFC = (props) => {
         joinedRooms,
         roomFetchStatus,
         setOwnRooms,
+        selectedRoom,
+        setSelectedRoom: (roomId: string) => setSelectedRoom(roomId),
         setJoinedRooms: (room: Room) => setJoinedRooms([...joinedRooms, room]),
       }}
     >

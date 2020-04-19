@@ -59,7 +59,7 @@ export const postNewRoom = (roomName) => {
 };
 
 export const getRoom = (room_id) => {
-  return fetch(`${apiBase}/rooms/${room_id}}`, {
+  return fetch(`${apiBase}/rooms/${room_id}`, {
     headers: {
       'Content-Type': 'application/json',
     },
@@ -143,8 +143,8 @@ export const getUser = (id) => {
     });
 };
 
-export const getCharacters = () => {
-  return fetch(`${apiBase}/characters`, {
+export const getCharacters = (roomId: string) => {
+  return fetch(`${apiBase}/characters/${roomId}`, {
     headers: {
       'Content-Type': 'application/json',
     },

@@ -17,7 +17,7 @@ const Rooms = () => {
     ev.preventDefault();
     ev.stopPropagation();
     postNewRoom(roomName).then((room: Room) =>
-      history.push(`/room/${room.room_id}`)
+      history.push(`/room/${room.room_id}/`)
     );
   };
 
@@ -34,7 +34,10 @@ const Rooms = () => {
               onChange={(ev) => setSearch(ev.target.value)}
             />
             <Button
-              onClick={() => history.push(`/room/${search}`)}
+              onClick={() => {
+                rooms.setSelectedRoom(search);
+                return history.push(`/room/${search}/`);
+              }}
               disabled={search.length !== 26}
               label={
                 <>
@@ -66,7 +69,11 @@ const Rooms = () => {
       </RoomControls>
       <RoomSection>
         {rooms.ownRooms.map((room: Room) => (
-          <Link key={room.room_id} to={`/room/${room.room_id}`}>
+          <Link
+            key={room.room_id}
+            to={`/room/${room.room_id}/`}
+            onClick={() => rooms.setSelectedRoom(room.room_id)}
+          >
             {room.room_name}: {room.room_id}
           </Link>
         ))}

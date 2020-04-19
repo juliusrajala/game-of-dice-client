@@ -10,7 +10,11 @@ import { FiLock, FiSettings } from 'react-icons/fi';
 // customer facing application. This is only to provide a very thin
 // layer of identity.
 
-const UserPanel = () => {
+interface Props {
+  roomId: string;
+}
+
+const UserPanel = (props: Props) => {
   const [settingsOpen, toggleSettings] = React.useState(false);
   return (
     <UserContainer>
@@ -20,7 +24,7 @@ const UserPanel = () => {
         </UserButton>
       </UserButtons>
       {settingsOpen && <AccentPicker />}
-      <Characters />
+      <Characters roomId={props.roomId} />
     </UserContainer>
   );
 };

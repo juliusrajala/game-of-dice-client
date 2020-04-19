@@ -17,6 +17,7 @@ import {
 import Input from 'src/components/Input';
 import Button from 'src/components/Button';
 import { createCharacter } from 'src/core/api';
+import { roomContext } from 'src/context/rooms';
 
 interface Props {
   character?: Character;
@@ -37,6 +38,7 @@ const initialCharacter = {
 };
 
 const CharacterForm = (props: Props) => {
+  const rooms = React.useContext(roomContext);
   const [formData, setValue] = React.useState<Partial<Character>>(
     props.character || initialCharacter
   );
@@ -45,7 +47,9 @@ const CharacterForm = (props: Props) => {
     ev.preventDefault();
     ev.stopPropagation();
     if (formData.character_name) {
-      createCharacter(formData).then(props.toggleForm);
+      createCharacter({ ...formData, room_id: rooms.selectedRoom }).then(
+        props.toggleForm
+      );
     }
   };
 

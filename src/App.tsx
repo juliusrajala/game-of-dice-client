@@ -6,7 +6,8 @@ import { useStoredUser } from 'src/hooks/storage';
 import { getUser } from 'src/core/api';
 import { SocketProvider } from 'src/context/socket';
 import InputSwitch from 'src/components/InputSwitch';
-import Router from './core/Router';
+import { Reset } from 'styled-reset';
+import Router from 'src/core/Router';
 
 const ReactApp = () => {
   return ReactDOM.render(<App />, document.getElementById('react-root'));
@@ -50,6 +51,7 @@ const App: React.SFC<any> = () => {
       }}
     >
       <SocketProvider>
+        <Reset />
         <Page cssProps={{ accMode }}>
           <ContentWrapper>
             <Title>noppa.io</Title>

@@ -76,6 +76,7 @@ declare interface Character {
   initiative: number;
   level: number;
   class: string;
+  room_id: string;
   player_name?: string;
   accent_color?: string;
 }

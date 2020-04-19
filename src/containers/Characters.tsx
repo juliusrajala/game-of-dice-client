@@ -9,7 +9,11 @@ import { getCharacters } from 'src/core/api';
 import { useStoredUser } from 'src/hooks/storage';
 import { Sockets } from 'src/context/socket';
 
-const Characters = () => {
+interface Props {
+  roomId: string;
+}
+
+const Characters = (props: Props) => {
   const userId = useStoredUser();
   const socketContext = React.useContext(Sockets);
   const [displayForm, toggleForm] = React.useState(false);
@@ -30,7 +34,9 @@ const Characters = () => {
     }
   }, [socketContext.message]);
 
-  const [characterRequest] = useRequestedData<Character[]>(getCharacters());
+  const [characterRequest] = useRequestedData<Character[]>(
+    getCharacters(props.roomId)
+  );
 
   React.useEffect(() => {
     if (characterRequest.status === 'fulfilled' && !!characterRequest.data) {

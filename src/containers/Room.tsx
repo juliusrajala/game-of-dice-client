@@ -12,9 +12,10 @@ import { useParams } from 'react-router';
 export default () => {
   const userContext = React.useContext(Users);
   const rooms = React.useContext(roomContext);
-  const { joinedRooms } = rooms;
-  const roomMap = joinedRooms.map((item) => item.room_id);
   const { roomId } = useParams();
+  const { joinedRooms } = rooms;
+
+  const roomMap = joinedRooms.map((item) => item.room_id);
   const selectedRoom = joinedRooms.find((room) => room.room_id === roomId);
 
   React.useEffect(() => {
@@ -32,7 +33,7 @@ export default () => {
         </Logout>
         {selectedRoom ? (
           <>
-            <UserPanel />
+            <UserPanel roomId={roomId} />
             <DiceControl />
           </>
         ) : (
