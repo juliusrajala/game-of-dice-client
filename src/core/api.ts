@@ -34,6 +34,15 @@ export const postRollEvent = (dice: Die[], description: string = '') => {
   });
 };
 
+export const getRooms = (user_id) => {
+  return fetch(`${apiBase}/rooms?user_id=${user_id}`, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    method: 'GET',
+  }).then(statusHandler);
+};
+
 export const getEvents = () => {
   return fetch(`${apiBase}/events`, {
     headers: {

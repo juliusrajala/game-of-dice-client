@@ -6,23 +6,21 @@ import EventTray from 'src/containers/Events';
 import UserPanel from 'src/containers/Users';
 import Rooms from 'src/containers/Rooms';
 import { Users } from 'src/App';
+import { RoomProvider } from 'src/context/rooms';
 
 export default () => {
   const userContext = React.useContext(Users);
 
   return (
-    <>
-      <MainPanel>
-        <Logout onClick={userContext.logOut}>
-          <FiLock />
-          Log out
-        </Logout>
+    <MainPanel>
+      <Logout onClick={userContext.logOut}>
+        <FiLock />
+        Log out
+      </Logout>
+      <RoomProvider>
         <Rooms />
-        <UserPanel />
-        <DiceControl />
-      </MainPanel>
-      <EventTray />
-    </>
+      </RoomProvider>
+    </MainPanel>
   );
 };
 
