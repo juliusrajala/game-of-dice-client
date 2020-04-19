@@ -70,7 +70,9 @@ const Character = (props: Props) => {
                 </HealButton>
               </>
             ))}
-          <FiUser />
+          <IconContainer>
+            <IconImg src="/assets/images/portrait-elf.png" />
+          </IconContainer>
         </CharacterItem>
         <HitPoints cssProps={{ accent: character.accent_color }}>
           <FiHeart />
@@ -221,8 +223,8 @@ const SkillList = styled.div`
 
 const CharacterItem = styled.div`
   position: relative;
-  min-width: 80px;
-  min-height: 80px;
+  width: 80px;
+  height: 80px;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -276,4 +278,21 @@ const DamageButton = styled(HoverButton)`
 const HealButton = styled(HoverButton)`
   right: -5px;
   top: -5px;
+`;
+
+const IconImg = styled.img`
+  height: 80px;
+  width: 80px;
+  margin-bottom: -10px;
+`;
+
+const IconContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
 `;
