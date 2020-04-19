@@ -11,15 +11,15 @@ import { useParams } from 'react-router';
 
 export default () => {
   const userContext = React.useContext(Users);
-  const roomsContext = React.useContext(roomContext);
-  const { joinedRooms } = roomsContext;
+  const rooms = React.useContext(roomContext);
+  const { joinedRooms } = rooms;
   const roomMap = joinedRooms.map((item) => item.room_id);
   const { roomId } = useParams();
   const selectedRoom = joinedRooms.find((room) => room.room_id === roomId);
 
   React.useEffect(() => {
     if (!roomMap.includes(roomId)) {
-      getRoom(roomId).then((room) => roomsContext.setJoinedRooms(room));
+      getRoom(roomId).then((room) => rooms.setJoinedRooms(room));
     }
   }, [roomId]);
 

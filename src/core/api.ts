@@ -67,8 +67,8 @@ export const getRoom = (room_id) => {
   }).then(statusHandler);
 };
 
-export const getEvents = () => {
-  return fetch(`${apiBase}/events`, {
+export const getEvents = (roomId) => {
+  return fetch(`${apiBase}/events/${roomId}`, {
     headers: {
       'Content-Type': 'application/json',
     },

@@ -4,6 +4,7 @@ import { Sockets } from 'src/context/socket';
 import { useRequestedData } from 'src/hooks/http';
 import { getEvents } from 'src/core/api';
 import DiceEvent from 'src/components/DiceEvent';
+import { useParams } from 'react-router';
 
 function getEvent(event: DiceEvent, idx: number) {
   switch (event.event_type) {
@@ -15,9 +16,13 @@ function getEvent(event: DiceEvent, idx: number) {
 }
 
 const EventTray = () => {
+  const { roomId } = useParams();
   const { message, connected } = React.useContext(Sockets);
   const [events, setEvents] = React.useState([]);
-  const [requestState] = useRequestedData<DndEvent[]>(getEvents(), 'getEvents');
+  const [requestState] = useRequestedData<DndEvent[]>(
+    getEvents(roomId),
+    'getEvents'
+  );
 
   React.useEffect(() => {
     if (requestState.status === 'fulfilled') {
