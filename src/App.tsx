@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import Footer from 'src/components/Footer';
 import { useStoredUser } from 'src/hooks/storage';
 import { getUser } from 'src/core/api';
-import { SocketProvider } from 'src/core/socket';
+import { SocketProvider } from 'src/context/socket';
 import InputSwitch from 'src/components/InputSwitch';
 import Router from './core/Router';
 

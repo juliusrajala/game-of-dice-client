@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { Sockets } from 'src/core/socket';
+import { Sockets } from 'src/context/socket';
 import { useRequestedData } from 'src/hooks/http';
 import { getEvents } from 'src/core/api';
 import DiceEvent from 'src/components/DiceEvent';

@@ -38,6 +38,8 @@ const LoginForm = () => {
       });
   };
 
+  console.log('User context', userContext);
+
   if (userContext.user) {
     return <Redirect to={{ pathname: '/' }} />;
   }

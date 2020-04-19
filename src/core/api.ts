@@ -34,8 +34,31 @@ export const postRollEvent = (dice: Die[], description: string = '') => {
   });
 };
 
-export const getRooms = (user_id) => {
-  return fetch(`${apiBase}/rooms?user_id=${user_id}`, {
+export const getRooms = () => {
+  const userId = localStorage.getItem('godUserId');
+  return fetch(`${apiBase}/rooms?user_id=${userId}`, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    method: 'GET',
+  }).then(statusHandler);
+};
+
+export const postNewRoom = () => {
+  const userId = localStorage.getItem('godUserId');
+  return fetch(`${apiBase}/create/roll`, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    method: 'POST',
+    body: JSON.stringify({
+      owner_id: userId,
+    }),
+  });
+};
+
+export const getRoom = (room_id) => {
+  return fetch(`${apiBase}/rooms/${room_id}}`, {
     headers: {
       'Content-Type': 'application/json',
     },

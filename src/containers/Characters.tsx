@@ -7,7 +7,7 @@ import CharacterForm from 'src/components/CharacterForm';
 import { useRequestedData } from 'src/hooks/http';
 import { getCharacters } from 'src/core/api';
 import { useStoredUser } from 'src/hooks/storage';
-import { Sockets } from 'src/core/socket';
+import { Sockets } from 'src/context/socket';
 
 const Characters = () => {
   const userId = useStoredUser();

@@ -18,7 +18,7 @@ const ButtonWrapper = styled.button`
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   cursor: pointer;
-  padding: 0.5rem;
+  padding: 0.25rem 0.5rem;
   margin: 0.25rem;
   color: #fff;
   border-radius: 10px;

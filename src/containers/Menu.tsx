@@ -1,12 +1,8 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { FiLock } from 'react-icons/fi';
-import DiceControl from 'src/containers/Dice';
-import EventTray from 'src/containers/Events';
-import UserPanel from 'src/containers/Users';
 import Rooms from 'src/containers/Rooms';
 import { Users } from 'src/App';
-import { RoomProvider } from 'src/context/rooms';
 
 export default () => {
   const userContext = React.useContext(Users);
@@ -17,9 +13,7 @@ export default () => {
         <FiLock />
         Log out
       </Logout>
-      <RoomProvider>
-        <Rooms />
-      </RoomProvider>
+      <Rooms />
     </MainPanel>
   );
 };

@@ -9,6 +9,8 @@ import {
 import { Users } from 'src/App';
 import LoginForm from 'src/components/LoginForm';
 import Menu from 'src/containers/Menu';
+import { RoomProvider } from 'src/context/rooms';
+import Room from 'src/containers/Room';
 
 const PrivateRoute = (props: RouteProps) => {
   const userContext = React.useContext(Users);
@@ -22,12 +24,14 @@ const PrivateRoute = (props: RouteProps) => {
 
 export default () => {
   return (
-    <Router>
-      <Switch>
-        <PrivateRoute path="/" exact render={() => <Menu />} />
-        <PrivateRoute path="/game/:id" />
-        <Route path="/login" render={(props: RouteProps) => <LoginForm />} />
-      </Switch>
-    </Router>
+    <RoomProvider>
+      <Router>
+        <Switch>
+          <PrivateRoute path="/" exact render={() => <Menu />} />
+          <PrivateRoute path="/room/:roomId" render={() => <Room />} />
+          <Route path="/login" render={(props: RouteProps) => <LoginForm />} />
+        </Switch>
+      </Router>
+    </RoomProvider>
   );
 };
