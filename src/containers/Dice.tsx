@@ -6,6 +6,7 @@ import { castGroupedDice } from 'src/core/dice';
 import TrayDie, { StyledDie } from 'src/components/TrayDie';
 import { postRollEvent } from 'src/core/api';
 import InputSwitch from 'src/components/InputSwitch';
+import { roomContext } from 'src/context/rooms';
 
 const defaultDice: DieType[] = [
   'd2',
@@ -36,6 +37,7 @@ const newDie = (type: DieType): Die => ({
 const DiceControl = () => {
   const [diceState, setDiceState] = React.useState(initialDiceState);
   const [isOnline, setOnline] = React.useState(true);
+  const rooms = React.useContext(roomContext);
 
   const addDice = (dieType: DieType) => {
     setDiceState({
@@ -49,7 +51,7 @@ const DiceControl = () => {
     if (!isOnline || newDice.length === 0) {
       return;
     }
-    return postRollEvent(newDice);
+    return postRollEvent(newDice, rooms.selectedRoom);
   };
 
   const removeDie = (id: string) => {

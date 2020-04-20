@@ -19,7 +19,11 @@ const statusHandler = (response: Response) => {
   });
 };
 
-export const postRollEvent = (dice: Die[], description: string = '') => {
+export const postRollEvent = (
+  dice: Die[],
+  roomId: string,
+  description: string = ''
+) => {
   const userId = localStorage.getItem('godUserId');
   return fetch(`${apiBase}/create/roll`, {
     headers: {
@@ -27,6 +31,7 @@ export const postRollEvent = (dice: Die[], description: string = '') => {
     },
     method: 'POST',
     body: JSON.stringify({
+      room_id: roomId,
       rolls: dice,
       creator_id: userId,
       description: description,

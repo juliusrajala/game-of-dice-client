@@ -85,7 +85,6 @@ const Rooms = () => {
 export default Rooms;
 
 const RoomContainer = styled.section`
-  max-width: 900px;
   background: #f2f2f2;
   padding: 1rem;
   border-radius: 5px;
@@ -104,10 +103,10 @@ const RoomSection = styled.div`
 const RoomInput = styled.div`
   display: flex;
   flex-direction: row;
-  align-items: flex-end;
+  align-items: center;
   > button {
     margin-left: 1rem;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.25rem;
   }
 `;
 

@@ -32,6 +32,7 @@ const InputEl: any = styled.input`
   border: none;
   border-radius: 0.25rem;
   padding: 0.5rem;
+  font-size: 1.1rem;
 `;
 
 const Label = styled.span`
