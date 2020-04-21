@@ -37,6 +37,13 @@ const initialCharacter = {
   level: 1,
 };
 
+const imageNames = [
+  'portrait-dwarf-male',
+  'portrait-elf',
+  'portrait-human-male',
+  'portrait-orc-male',
+];
+
 const CharacterForm = (props: Props) => {
   const rooms = React.useContext(roomContext);
   const [formData, setValue] = React.useState<Partial<Character>>(
@@ -54,156 +61,193 @@ const CharacterForm = (props: Props) => {
   };
 
   return (
-    <Form>
-      <Input
-        label={
-          <>
-            <FiUser />
-            Name
-          </>
-        }
-        inputProps={{ autoFocus: true, defaultValue: formData.character_name }}
-        onChange={(ev) =>
-          setValue({ ...formData, character_name: ev.target.value })
-        }
-      />
-      <FormRow>
+    <FormContainer>
+      <Form>
         <Input
           label={
             <>
-              <FiHeart />
-              Hit Points (Total)
+              <FiUser />
+              Name
             </>
           }
-          inputProps={{ type: 'number', defaultValue: formData.hit_points }}
+          inputProps={{
+            autoFocus: true,
+            defaultValue: formData.character_name,
+          }}
           onChange={(ev) =>
-            setValue({ ...formData, hit_points: parseInt(ev.target.value) })
+            setValue({ ...formData, character_name: ev.target.value })
           }
         />
-        <Input
-          label={
-            <>
-              <FiShield />
-              Armor Class
-            </>
-          }
-          inputProps={{ type: 'number', defaultValue: formData.armor_class }}
-          onChange={(ev) =>
-            setValue({ ...formData, armor_class: parseInt(ev.target.value) })
-          }
-        />
-        <Input
-          label={
-            <>
-              <FiZap />
-              Attack Bonus
-            </>
-          }
-          inputProps={{ type: 'number', defaultValue: formData.attack_bonus }}
-          onChange={(ev) =>
-            setValue({ ...formData, attack_bonus: parseInt(ev.target.value) })
-          }
-        />
-      </FormRow>
-      <FormRow>
-        <Input
-          label={
-            <>
-              <FiActivity />
-              Fortitude Save
-            </>
-          }
-          inputProps={{ type: 'number', defaultValue: formData.fortitude }}
-          onChange={(ev) =>
-            setValue({ ...formData, fortitude: parseInt(ev.target.value) })
-          }
-        />
-        <Input
-          label={
-            <>
-              <FiFeather />
-              Reflex Save
-            </>
-          }
-          inputProps={{ type: 'number', defaultValue: formData.reflex }}
-          onChange={(ev) =>
-            setValue({ ...formData, reflex: parseInt(ev.target.value) })
-          }
-        />
-        <Input
-          label={
-            <>
-              <FiEye />
-              Will Save
-            </>
-          }
-          inputProps={{ type: 'number', defaultValue: formData.will }}
-          onChange={(ev) =>
-            setValue({ ...formData, will: parseInt(ev.target.value) })
-          }
-        />
-      </FormRow>
-      <FormRow>
-        <Input
-          label={
-            <>
-              <FiList />
-              Initiative
-            </>
-          }
-          inputProps={{ type: 'number', defaultValue: formData.initiative }}
-          onChange={(ev) =>
-            setValue({ ...formData, initiative: parseInt(ev.target.value) })
-          }
-        />
-        <Input
-          label={
-            <>
-              <FiUsers />
-              Class
-            </>
-          }
-          inputProps={{ type: 'text', defaultValue: formData.class }}
-          onChange={(ev) => setValue({ ...formData, class: ev.target.value })}
-        />
-        <Input
-          label={
-            <>
-              <FiPlus />
-              Level
-            </>
-          }
-          inputProps={{ type: 'number', defaultValue: formData.level }}
-          onChange={(ev) =>
-            setValue({ ...formData, level: parseInt(ev.target.value) })
-          }
-        />
-      </FormRow>
-      <FormActions>
-        <Button
-          onClick={props.toggleForm}
-          label={
-            <>
-              <FiX /> Cancel
-            </>
-          }
-        />
-        <Button
-          onClick={submitData}
-          label={
-            <>
-              <FiFilePlus /> Create character
-            </>
-          }
-        />
-      </FormActions>
-    </Form>
+        <FormRow>
+          <Input
+            label={
+              <>
+                <FiHeart />
+                Hit Points (Total)
+              </>
+            }
+            inputProps={{ type: 'number', defaultValue: formData.hit_points }}
+            onChange={(ev) =>
+              setValue({ ...formData, hit_points: parseInt(ev.target.value) })
+            }
+          />
+          <Input
+            label={
+              <>
+                <FiShield />
+                Armor Class
+              </>
+            }
+            inputProps={{ type: 'number', defaultValue: formData.armor_class }}
+            onChange={(ev) =>
+              setValue({ ...formData, armor_class: parseInt(ev.target.value) })
+            }
+          />
+          <Input
+            label={
+              <>
+                <FiZap />
+                Attack Bonus
+              </>
+            }
+            inputProps={{ type: 'number', defaultValue: formData.attack_bonus }}
+            onChange={(ev) =>
+              setValue({ ...formData, attack_bonus: parseInt(ev.target.value) })
+            }
+          />
+        </FormRow>
+        <FormRow>
+          <Input
+            label={
+              <>
+                <FiActivity />
+                Fortitude Save
+              </>
+            }
+            inputProps={{ type: 'number', defaultValue: formData.fortitude }}
+            onChange={(ev) =>
+              setValue({ ...formData, fortitude: parseInt(ev.target.value) })
+            }
+          />
+          <Input
+            label={
+              <>
+                <FiFeather />
+                Reflex Save
+              </>
+            }
+            inputProps={{ type: 'number', defaultValue: formData.reflex }}
+            onChange={(ev) =>
+              setValue({ ...formData, reflex: parseInt(ev.target.value) })
+            }
+          />
+          <Input
+            label={
+              <>
+                <FiEye />
+                Will Save
+              </>
+            }
+            inputProps={{ type: 'number', defaultValue: formData.will }}
+            onChange={(ev) =>
+              setValue({ ...formData, will: parseInt(ev.target.value) })
+            }
+          />
+        </FormRow>
+        <FormRow>
+          <Input
+            label={
+              <>
+                <FiList />
+                Initiative
+              </>
+            }
+            inputProps={{ type: 'number', defaultValue: formData.initiative }}
+            onChange={(ev) =>
+              setValue({ ...formData, initiative: parseInt(ev.target.value) })
+            }
+          />
+          <Input
+            label={
+              <>
+                <FiUsers />
+                Class
+              </>
+            }
+            inputProps={{ type: 'text', defaultValue: formData.class }}
+            onChange={(ev) => setValue({ ...formData, class: ev.target.value })}
+          />
+          <Input
+            label={
+              <>
+                <FiPlus />
+                Level
+              </>
+            }
+            inputProps={{ type: 'number', defaultValue: formData.level }}
+            onChange={(ev) =>
+              setValue({ ...formData, level: parseInt(ev.target.value) })
+            }
+          />
+        </FormRow>
+        <FormActions>
+          <Button
+            onClick={props.toggleForm}
+            label={
+              <>
+                <FiX /> Cancel
+              </>
+            }
+          />
+          <Button
+            onClick={submitData}
+            label={
+              <>
+                <FiFilePlus /> Create character
+              </>
+            }
+          />
+        </FormActions>
+      </Form>
+      <PortraitSelector>
+        {imageNames.map((item) => (
+          <img key={item} src={`/assets/images/${item}.png`} />
+        ))}
+      </PortraitSelector>
+    </FormContainer>
   );
 };
 
 export default CharacterForm;
 
-const Form = styled.form``;
+const PortraitSelector = styled.div`
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-start;
+
+  > img {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+    width: 80px;
+    height: 80px;
+    background: #3f3f3f;
+    border-radius: 5px;
+    margin: 0.25rem;
+  }
+`;
+
+const FormContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+
+const Form = styled.form`
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+`;
 const FormRow = styled.div`
   display: flex;
   flex-direction: row;
