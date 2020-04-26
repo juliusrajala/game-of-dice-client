@@ -42,6 +42,8 @@ const imageNames = [
   'portrait-elf',
   'portrait-human-male',
   'portrait-orc-male',
+  'portrait-wizard-male',
+  'portrait-gnome-male',
 ];
 
 const CharacterForm = (props: Props) => {
